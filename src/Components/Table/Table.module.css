@@ -1,0 +1,67 @@
+.genericTable {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.headerTable {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 2.5rem;
+}
+
+.tableTitle {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+.tableButtons {
+  display: flex;
+  align-items: center;
+}
+
+.tableHeader {
+  background-color: #f2f2f2;
+  padding: 10px;
+  display: flex;
+}
+
+.columnHeader {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  text-align: center;
+}
+
+.columnTitle {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.columnType {
+  font-size: 12px;
+}
+
+.tableTody {
+  padding: 10px;
+}
+
+.tableRow {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.tableCell {
+  flex: 1;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ddd;
+}

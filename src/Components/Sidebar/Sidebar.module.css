@@ -1,0 +1,24 @@
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  width: 15rem;
+  min-width: 10rem;
+  background-color: #48953c;
+}
+
+.sidebarList {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem;
+}
+
+.sidebarItem {
+  margin: 0.75rem;
+}
+
+.sidebarLink {
+  text-decoration: none;
+  color: #000;
+}
