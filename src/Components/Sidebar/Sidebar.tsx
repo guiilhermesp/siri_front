@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../../Assets/logo.png";
+import { useSelector } from "react-redux";
 
 interface Page {
   title: string;
@@ -12,9 +13,18 @@ interface SidebarProps {
   pages: Page[];
 }
 
+interface RootState {
+  accountSlice: unknown;
+}
+
+interface HandlePages {
+  [key: string]: Page[];
+}
+
 const Sidebar: React.FC<SidebarProps> = () => {
-  // const [selectAccount, setSelectAccount] = useState<string>("admin");
-  const handlePages = {
+  const [selectAccount, setSelectAccount] = useState<string>("admin");
+  const data = useSelector((state: RootState) => state.accountSlice);
+  const handlePages: HandlePages = {
     admin: [
       { title: "Pedidos", path: "/pedidos" },
       { title: "Estoque", path: "/estoque" },
@@ -60,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         <hr />
       </div>
       <ul className={styles.sidebarList}>
-        {handlePages["admin"].map((page: Page, index: any) => (
+        {handlePages[selectAccount].map((page: Page, index: any) => (
           <li className={styles.sidebarItem} key={index}>
             <Link to={page.path} className={styles.sidebarLink}>
               {page.title}
