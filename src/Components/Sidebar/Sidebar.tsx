@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../../Assets/logo.png";
-import { useSelector } from "react-redux";
 
 interface Page {
   title: string;
@@ -13,17 +12,13 @@ interface SidebarProps {
   pages: Page[];
 }
 
-interface RootState {
-  accountSlice: unknown;
-}
-
 interface HandlePages {
   [key: string]: Page[];
 }
 
 const Sidebar: React.FC<SidebarProps> = () => {
-  const [selectAccount, setSelectAccount] = useState<string>("admin");
-  const data = useSelector((state: RootState) => state.accountSlice);
+  const [selectAccount, setSelectAccount] = useState<string>("");
+  let accountType = sessionStorage.getItem("accountType");
   const handlePages: HandlePages = {
     admin: [
       { title: "Pedidos", path: "/pedidos" },
@@ -58,27 +53,35 @@ const Sidebar: React.FC<SidebarProps> = () => {
     ],
   };
 
+  useEffect(() => {
+    accountType = accountType ? "admin" : "user";
+  }, []);
+
   return (
-    <div className={styles.sidebarContainer}>
-      <div>
-        <img
-          src={logo}
-          alt="Logo da defensoria pública"
-          width="250"
-          height="75"
-        />
-        <hr />
-      </div>
-      <ul className={styles.sidebarList}>
-        {handlePages[selectAccount].map((page: Page, index: any) => (
-          <li className={styles.sidebarItem} key={index}>
-            <Link to={page.path} className={styles.sidebarLink}>
-              {page.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {handlePages[selectAccount] ? (
+        <div className={styles.sidebarContainer}>
+          <div>
+            <img
+              src={logo}
+              alt="Logo da defensoria pública"
+              width="250"
+              height="75"
+            />
+            <hr />
+          </div>
+          <ul className={styles.sidebarList}>
+            {handlePages[selectAccount]?.map((page: Page, index: any) => (
+              <li className={styles.sidebarItem} key={index}>
+                <Link to={page.path} className={styles.sidebarLink}>
+                  {page.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </>
   );
 };
 
