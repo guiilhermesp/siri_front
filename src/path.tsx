@@ -3,4 +3,6 @@ const baseurl = {
 };
 export const PATH = {
   account: baseurl.apiUrl + "/me/",
+  products: baseurl.apiUrl + "/stock/products",
+  orders: baseurl.apiUrl + "/order",
 };

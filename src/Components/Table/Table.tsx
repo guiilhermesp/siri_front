@@ -107,15 +107,15 @@ const Table: React.FC<TableProps> = ({
       <div className={styles.tableBody}>
         {data.map((row, rowIndex) => (
           <div key={rowIndex} className={styles.tableRow}>
-            {columns.map((column, columnIndex) =>
-              column.property === "button" ? (
-                <button key={columnIndex}>teste</button>
-              ) : (
-                <div key={columnIndex} className={styles.tableCell}>
-                  {row[column.property]}
-                </div>
-              )
-            )}
+            {columns.map((column, columnIndex) => (
+              <div key={columnIndex} className={styles.tableCell}>
+                {column.property === "button" ? (
+                  <button key={columnIndex}>{column.title}</button>
+                ) : (
+                  row[column.property]
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>

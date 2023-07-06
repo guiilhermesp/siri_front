@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAccount } from "../../Services/accountSlice";
+import { fetchAccount } from "../../Services/Slices/accountSlice";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import Input from "../Forms/Input";
@@ -20,8 +20,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (data.client) {
-      // sessionStorage.setItem('accountType', data.is_admin)
-      // navigate("/pedidos");
+      sessionStorage.setItem("is_admin", data.is_admin);
     }
   }, [data]);
 
@@ -40,7 +39,7 @@ const Login: React.FC = () => {
       login: "",
       password: "",
     });
-    // navigate("/pedidos");
+    navigate("/pedidos");
   };
 
   return (

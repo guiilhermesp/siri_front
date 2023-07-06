@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import services from "./services";
+import services from "../services";
 
 interface AccountState {
   data: any[];
@@ -53,7 +53,7 @@ export const fetchAccount =
   ) => {
     dispatch(getAccount());
     try {
-      const response = await services.account(user, password);
+      const response = await services.getAccount(user, password);
       dispatch(getAccountSuccess(response));
     } catch (err) {
       console.log("err: ", err);
