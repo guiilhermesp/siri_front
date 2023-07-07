@@ -20,7 +20,11 @@ const services = {
 
     return axios
       .get(PATH.account, options)
-      .then((data: any) => data)
+      .then((data: any) => {
+        sessionStorage.setItem("user", user);
+        sessionStorage.setItem("password", password);
+        return data;
+      })
       .catch((err: any) => console.log(err));
   },
 };

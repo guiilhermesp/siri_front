@@ -15,9 +15,9 @@ const productsServices = {
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
-  getProductsById: async (productId: number) => {
+  getProductsById: async (id: number) => {
     return axios
-      .get(`${PATH.products}/${productId}`, options)
+      .get(`${PATH.products}/${id}`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

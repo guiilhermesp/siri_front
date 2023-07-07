@@ -5,4 +5,7 @@ export const PATH = {
   account: baseurl.apiUrl + "/me/",
   products: baseurl.apiUrl + "/stock/products",
   orders: baseurl.apiUrl + "/order",
+  protocols: baseurl.apiUrl + "/stock/protocols",
+  suppliers: baseurl.apiUrl + "/stock/suppliers",
+  user: baseurl.apiUrl,
 };
