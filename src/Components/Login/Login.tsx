@@ -6,23 +6,27 @@ import styles from "./Login.module.css";
 import Input from "../Forms/Input";
 import Button from "../Forms/Button";
 import logo from "../../Assets/logo.png";
+import { fetchMe } from "../../Services/Slices/meSlice";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    login: "",
+    username: "",
     password: "",
+    remember: false,
   });
-  const { data, error, loading } = useSelector(
-    (state: any) => state.accountSlice
-  );
-
+  const { data } = useSelector((state: any) => state.accountSlice);
+  // const response = useSelector((state: any) => state.meSlice);
   useEffect(() => {
-    if (data.client) {
-      sessionStorage.setItem("is_admin", data.is_admin);
+    if (data.token) {
+      dispatch<any>(fetchMe(data.token));
     }
-  }, [data]);
+    // console.log("response: ", response.data);
+    // if (response) {
+    //   sessionStorage.setItem("is_admin", response.data.is_admin);
+    // }
+  }, [data.token]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,12 +38,13 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch<any>(fetchAccount(form.login, form.password));
+    dispatch<any>(fetchAccount(form));
     setForm({
-      login: "",
+      username: "",
       password: "",
+      remember: false,
     });
-    navigate("/pedidos");
+    navigate("/produtos");
   };
 
   return (
@@ -53,13 +58,19 @@ const Login: React.FC = () => {
             height="150"
           />
         </div>
+        <div className={styles.division}>
+          <h1 className={styles.title}>SIRI</h1>
+          <p className={styles.subtitle}>
+            Sistema Integrado de Requisições Internas
+          </p>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className={styles.fields}>
             <Input
               className={styles.input}
-              placeholder="Login"
-              name="login"
-              value={form.login}
+              placeholder="Usuário"
+              name="username"
+              value={form.username}
               onChange={handleChange}
             />{" "}
             <Input
@@ -80,9 +91,9 @@ const Login: React.FC = () => {
               />
               Lembrar
             </div>
-            <a className={styles.forgotPassword}>Esqueci minha senha</a>
+            <a className={styles.forgotPassword}>Esqueci a senha</a>
           </div>
-          <Button className={styles.button}>Acessar</Button>
+          <Button className={styles.button}>Login</Button>
         </form>
       </div>
     </div>

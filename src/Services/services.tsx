@@ -1,28 +1,12 @@
 import { PATH } from "../path";
 import axios from "axios";
-
-const user = sessionStorage.getItem("user");
-const password = sessionStorage.getItem("password");
-
-export const options = {
-  headers: {
-    Authorization: "Basic " + btoa(`${user}:${password}`),
-  },
-};
+import { options } from "./login";
 
 const services = {
-  getAccount: async (user: string, password: string) => {
-    const options = {
-      headers: {
-        Authorization: "Basic " + btoa(`${user}:${password}`),
-      },
-    };
-
+  getAccount: async () => {
     return axios
       .get(PATH.account, options)
       .then((data: any) => {
-        sessionStorage.setItem("user", user);
-        sessionStorage.setItem("password", password);
         return data;
       })
       .catch((err: any) => console.log(err));

@@ -1,11 +1,26 @@
 import { PATH } from "../path";
 import axios from "axios";
-import { options } from "./services";
+import { options } from "./login";
 
 const ordersServices = {
   getOrders: async (page: string) => {
     return axios
       .get(`${PATH.orders}/?page=${page}`, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
+  postOrderItems: async (body: any[]) => {
+    return axios
+      .post(`${PATH.orders}/order-items/`, body, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
+  getOrdersItems: async (id: string, page: string) => {
+    const newOptions = { options, params: id };
+    return axios
+      .get(`${PATH.orders}/order-items/?page=${page}`, newOptions)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -17,10 +32,9 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getOrdersItems: async (id: string, page: string) => {
-    const newOptions = { options, params: id };
+  patchOrderItem: async (id: number, body: any) => {
     return axios
-      .get(`${PATH.orders}/order-items/?page=${page}`, newOptions)
+      .patch(`${PATH.orders}/order-items/${id}/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -43,6 +57,20 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
+  postSupplierOrder: async (body: any) => {
+    return axios
+      .post(`${PATH.orders}/supplier-orders/`, body, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
+  getSupplierOrders: async () => {
+    return axios
+      .get(`${PATH.orders}/supplier-orders`, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
   getSuppliersOrdersById: async (id: string) => {
     const newOptions = { options, params: id };
     return axios
@@ -51,9 +79,9 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getSupplierOrders: async () => {
+  patchSupplierOrder: async (id: string, body: any) => {
     return axios
-      .get(`${PATH.orders}/supplier-orders`, options)
+      .patch(`${PATH.orders}/supplier-orders/${id}`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -73,6 +101,13 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
+  patchMaterialsOrder: async (id: number, body: FormData) => {
+    return axios
+      .patch(`${PATH.orders}/materials-order/${id}`, body, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
   deleteMaterialOrder: async (id: string) => {
     return axios
       .delete(`${PATH.orders}/materials-order/${id}`, options)
@@ -80,12 +115,9 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getStockEntries: async (id: string, page: string) => {
+  postStockWithDrawal: async (body: any) => {
     return axios
-      .get(
-        `${PATH.orders}/stock-entries/?page=${page}/&stock_item_id=${id}`,
-        options
-      )
+      .post(`${PATH.orders}/stock-with-drawals/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -96,6 +128,20 @@ const ordersServices = {
         `${PATH.orders}/stock-withdrawals/?page=${page}/&stock_item_id=${id}`,
         options
       )
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
+  deleteWithDrawal: async (id: string) => {
+    return axios
+      .delete(`${PATH.orders}/stock-withdrawals/${id}`, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
+
+  postSupplierOrderItem: async (body: any) => {
+    return axios
+      .post(`${PATH.orders}/supplier-order-item/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -115,37 +161,9 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  editSupplierOrder: async (id: string, body: any) => {
-    return axios
-      .patch(`${PATH.orders}/supplier-orders/${id}`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  createSupplierOrder: async (body: any) => {
-    return axios
-      .post(`${PATH.orders}/supplier-orders/`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  createSupplierOrderItem: async (body: any) => {
-    return axios
-      .post(`${PATH.orders}/supplier-order-item/`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
   deleteGeneralOrderItem: async (id: string) => {
     return axios
       .delete(`${PATH.orders}/supplier-order-item/${id}`, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  deleteWithDraw: async (id: string) => {
-    return axios
-      .delete(`${PATH.orders}/stock-withdrawals/${id}`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -157,44 +175,26 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  patchMaterialsOrder: async (id: number, body: FormData) => {
-    return axios
-      .patch(`${PATH.orders}/materials-order/${id}`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  updateOrder: async (id: number, body: any) => {
-    return axios
-      .patch(`${PATH.orders}/${id}/`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  updateOrderItem: async (id: number, body: any) => {
-    return axios
-      .patch(`${PATH.orders}/order-items/${id}/`, body, options)
-      .then((data: any) => data)
-      .catch((err: any) => console.log(err));
-  },
-
-  createOrder: async (body: any) => {
+  postOrder: async (body: any) => {
     return axios
       .post(`${PATH.orders}/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
 
-  createOrderItems: async (body: any[]) => {
+  patchOrder: async (id: number, body: any) => {
     return axios
-      .post(`${PATH.orders}/order-items/`, body, options)
+      .patch(`${PATH.orders}/${id}/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
 
-  createStockWithDrawal: async (body: any) => {
+  getStockEntries: async (id: string, page: string) => {
     return axios
-      .post(`${PATH.orders}/stock-with-drawals/`, body, options)
+      .get(
+        `${PATH.orders}/stock-entries/?page=${page}/&stock_item_id=${id}`,
+        options
+      )
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

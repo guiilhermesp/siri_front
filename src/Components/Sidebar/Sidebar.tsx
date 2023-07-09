@@ -10,15 +10,16 @@ interface Page {
 
 interface SidebarProps {
   pages: Page[];
+  accountType: string | null;
 }
 
 interface HandlePages {
   [key: string]: Page[];
 }
 
-const Sidebar: React.FC<SidebarProps> = () => {
+const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
   const [selectAccount, setSelectAccount] = useState<string>("");
-  let accountType = sessionStorage.getItem("accountType");
+  // let accountType = sessionStorage.getItem("is_admin");
   const handlePages: HandlePages = {
     admin: [
       { title: "Pedidos", path: "/pedidos" },
@@ -54,7 +55,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
   };
 
   useEffect(() => {
-    accountType = accountType ? "admin" : "user";
+    setSelectAccount(accountType ? "admin" : "user");
+    console.log("selectAccount: ", selectAccount);
   }, []);
 
   return (

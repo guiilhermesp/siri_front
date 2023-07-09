@@ -1,16 +1,11 @@
 import { PATH } from "../path";
 import axios from "axios";
-import { options } from "./services";
+import { options } from "./login";
 
 const userServices = {
-  getUser: async (page: string) => {
+  getUser: async (body: string) => {
     return axios
-      .get(
-        Number(page) > 1
-          ? `${PATH.user}/order/?page=${page}`
-          : `${PATH.user}/me/`,
-        options
-      )
+      .get(`${PATH.user}/me/`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

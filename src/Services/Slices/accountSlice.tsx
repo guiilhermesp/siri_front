@@ -1,10 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import services from "../services";
+import loginServices from "../login";
 
 interface AccountState {
   data: any[];
   loading: boolean;
   error: boolean;
+}
+
+interface Body {
+  username: string;
+  password: string;
+  remember: boolean;
 }
 
 const initialState: AccountState = {
@@ -41,7 +47,7 @@ export const { getAccount, getAccountSuccess, getAccountFailure } =
 export default accountSlice.reducer;
 
 export const fetchAccount =
-  (user: string, password: string) =>
+  (body: Body) =>
   async (
     dispatch: (arg0: {
       payload: any;
@@ -53,7 +59,7 @@ export const fetchAccount =
   ) => {
     dispatch(getAccount());
     try {
-      const response = await services.getAccount(user, password);
+      const response = await loginServices.login(body);
       dispatch(getAccountSuccess(response));
     } catch (err) {
       console.log("err: ", err);
