@@ -16,17 +16,15 @@ const Login: React.FC = () => {
     password: "",
     remember: false,
   });
-  const { data } = useSelector((state: any) => state.accountSlice);
-  // const response = useSelector((state: any) => state.meSlice);
+  // const { data } = useSelector((state: any) => state.accountSlice);
+  const response = useSelector((state: any) => state.meSlice);
+
   useEffect(() => {
-    if (data.token) {
-      dispatch<any>(fetchMe(data.token));
+    if (response.data.client) {
+      sessionStorage.setItem("me", JSON.stringify(response.data));
+      navigate("/produtos");
     }
-    // console.log("response: ", response.data);
-    // if (response) {
-    //   sessionStorage.setItem("is_admin", response.data.is_admin);
-    // }
-  }, [data.token]);
+  }, [response]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,13 +36,17 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch<any>(fetchAccount(form));
+    const options = {
+      headers: {
+        Authorization: "Basic " + btoa(`${form.username}:${form.password}`),
+      },
+    };
+    dispatch<any>(fetchMe(options));
     setForm({
       username: "",
       password: "",
       remember: false,
     });
-    navigate("/produtos");
   };
 
   return (

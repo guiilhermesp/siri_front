@@ -3,7 +3,7 @@ import loginServices from "../login";
 import userServices from "../user";
 
 interface MeState {
-  data: any[];
+  data: any;
   loading: boolean;
   error: boolean;
 }
@@ -41,7 +41,7 @@ export const { getMe, getMeSuccess, getMeFailure } = meSlice.actions;
 export default meSlice.reducer;
 
 export const fetchMe =
-  (body: string) =>
+  (body: any) =>
   async (
     dispatch: (arg0: {
       payload: any;

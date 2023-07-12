@@ -12,7 +12,8 @@ const password = sessionStorage.getItem("password");
 
 export const options = {
   headers: {
-    Authorization: "Basic " + btoa(`${username}:${password}`),
+    // Authorization: "Basic " + btoa(`${username}:${password}`),
+    Authorization: "Basic " + btoa(`${"admin"}:${"admin"}`),
   },
 };
 

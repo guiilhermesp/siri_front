@@ -10,7 +10,7 @@ interface Page {
 
 interface SidebarProps {
   pages: Page[];
-  accountType: string | null;
+  accountType: boolean | undefined | null;
 }
 
 interface HandlePages {
@@ -18,7 +18,9 @@ interface HandlePages {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
-  const [selectAccount, setSelectAccount] = useState<string>("");
+  const [selectAccount, setSelectAccount] = useState<string>(
+    accountType ? "admin" : "user"
+  );
   // let accountType = sessionStorage.getItem("is_admin");
   const handlePages: HandlePages = {
     admin: [
@@ -53,11 +55,6 @@ const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
       { title: "Sair", path: "/" },
     ],
   };
-
-  useEffect(() => {
-    setSelectAccount(accountType ? "admin" : "user");
-    console.log("selectAccount: ", selectAccount);
-  }, []);
 
   return (
     <>

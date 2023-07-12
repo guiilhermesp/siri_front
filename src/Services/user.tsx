@@ -3,9 +3,9 @@ import axios from "axios";
 import { options } from "./login";
 
 const userServices = {
-  getUser: async (body: string) => {
+  getUser: async (body: any) => {
     return axios
-      .get(`${PATH.user}/me/`, options)
+      .get(`${PATH.user}/me/`, body)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

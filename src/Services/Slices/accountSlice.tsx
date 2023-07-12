@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import loginServices from "../login";
 
 interface AccountState {
-  data: any[];
+  data: any;
   loading: boolean;
   error: boolean;
 }

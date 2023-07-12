@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../Table/Table";
-
-interface Column {
-  title: string;
-  property: string;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../Services/Slices/productsSlice";
 
 const Produtos = () => {
+  const [slice, setSlice] = useState<any>();
+  const dispatch = useDispatch();
   const columns: any[] = [
     { title: "Id", property: "id" },
     { title: "Nome", property: "name" },
@@ -22,7 +21,7 @@ const Produtos = () => {
     { title: "Excluir", property: "button" },
   ];
 
-  const data = [
+  const mock = [
     {
       id: 1,
       name: "Notebook dell G15",
@@ -66,9 +65,24 @@ const Produtos = () => {
       deleteProduct: "Excluir",
     },
   ];
+
+  const { data } = useSelector((state: any) => state.productsSlice);
+  console.log("response produtos: ", data);
+
+  useEffect(() => {
+    dispatch<any>(fetchProducts("1"));
+    const converter = sessionStorage.getItem("me");
+    const me = JSON.parse(converter as string);
+  }, [dispatch]);
+
   return (
     <div>
-      <Table title="Produtos" createButton columns={columns} data={data} />
+      <Table
+        title="Produtos"
+        createButton
+        columns={columns}
+        data={data.results}
+      />
     </div>
   );
 };

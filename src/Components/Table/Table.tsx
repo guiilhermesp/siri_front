@@ -73,7 +73,27 @@ interface TableProps {
   title: string;
   createButton: boolean;
   columns: Column[];
-  data: any[];
+  data: {
+    id: number;
+    name: string;
+    created: string;
+    updated: string;
+    category: {
+      id: number;
+      name: string;
+      code: string;
+    };
+    code: string;
+    description: string;
+    is_available: boolean;
+    measure: {
+      id: number;
+      name: string;
+      created: string;
+      updated: string;
+    };
+    price: number;
+  }[];
 }
 
 const Table: React.FC<TableProps> = ({
@@ -98,19 +118,21 @@ const Table: React.FC<TableProps> = ({
       </div>
       <hr />
       <div className={styles.tableHeader}>
-        {columns.map((column, index) => (
+        {columns?.map((column, index) => (
           <div key={index} className={styles.columnHeader}>
             <div className={styles.columnTitle}>{column.title}</div>
           </div>
         ))}
       </div>
       <div className={styles.tableBody}>
-        {data.map((row, rowIndex) => (
+        {data?.map((row: any, rowIndex: any) => (
           <div key={rowIndex} className={styles.tableRow}>
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={styles.tableCell}>
                 {column.property === "button" ? (
                   <button key={columnIndex}>{column.title}</button>
+                ) : typeof row[column.property] === "object" ? (
+                  <div>{row[column.property].name}</div>
                 ) : (
                   row[column.property]
                 )}
