@@ -85,7 +85,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div className={styles.info}>
-            <div>
+            <div className={styles.checkbox}>
               <Input
                 type="checkbox"
                 name="remember"

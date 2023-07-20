@@ -35,10 +35,7 @@
   padding: 0 2rem;
   margin: 0.5rem 0;
   height: 5rem;
-  width: 15rem;
-  border: none;
-  border-radius: 0.25rem;
-  background-color: #e8f0fe;
+  width: 5rem;
 }
 
 .info {
@@ -47,8 +44,13 @@
   margin: 1rem 0;
 }
 
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
 .remember {
-  /* Add your styles for the .remember class here */
+  margin: 0 0.5rem 0 0;
 }
 
 .forgotPassword {

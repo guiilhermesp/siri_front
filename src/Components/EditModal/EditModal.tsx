@@ -1,5 +1,5 @@
 import { ChangeEventHandler, InputHTMLAttributes } from "react";
-import styles from "./Modal.module.css";
+import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 

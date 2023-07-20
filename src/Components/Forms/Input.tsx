@@ -19,9 +19,10 @@ const Input: React.FC<InputProps> = ({
   type,
   ...props
 }) => {
+  const inputClassName = `${className || ""} ${styles.content}`;
   return (
     <input
-      className={`${styles.content} ${className}`}
+      className={inputClassName.trim()}
       onChange={onChange}
       placeholder={placeholder}
       type={type}

@@ -5,6 +5,7 @@ body {
 .App {
   display: flex;
   height: 100vh;
+  background-color: none;
 }
 
 .AppBody {
@@ -12,7 +13,6 @@ body {
   padding: 20px;
 }
 
-/* Add the following styles for the Sidebar */
 .Sidebar {
   display: flex;
   flex-direction: column;

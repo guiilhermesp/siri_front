@@ -14,7 +14,7 @@ const Produtos = () => {
     { title: "Medida", property: "measure" },
     { title: "Categoria", property: "category" },
     { title: "Preço", property: "price" },
-    { title: "Disponível", property: "available" },
+    { title: "Disponível", property: "is_available" },
     { title: "Criado", property: "created" },
     { title: "Atualizado", property: "updated" },
     { title: "Editar", property: "button" },

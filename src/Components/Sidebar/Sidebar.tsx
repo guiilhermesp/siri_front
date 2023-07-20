@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import logo from "../../Assets/logo.png";
+import logo from "../../Assets/logo_branco.png";
 
 interface Page {
   title: string;
@@ -60,24 +60,26 @@ const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
     <>
       {handlePages[selectAccount] ? (
         <div className={styles.sidebarContainer}>
-          <div>
-            <img
-              src={logo}
-              alt="Logo da defensoria pública"
-              width="250"
-              height="75"
-            />
-            <hr />
+          <div className={styles.position}>
+            <div>
+              <img
+                src={logo}
+                alt="Logo da defensoria pública"
+                width="250"
+                height="75"
+              />
+              <hr />
+            </div>
+            <ul className={styles.sidebarList}>
+              {handlePages[selectAccount]?.map((page: Page, index: any) => (
+                <li className={styles.sidebarItem} key={index}>
+                  <Link to={page.path} className={styles.sidebarLink}>
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className={styles.sidebarList}>
-            {handlePages[selectAccount]?.map((page: Page, index: any) => (
-              <li className={styles.sidebarItem} key={index}>
-                <Link to={page.path} className={styles.sidebarLink}>
-                  {page.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       ) : null}
     </>

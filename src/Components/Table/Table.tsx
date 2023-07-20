@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Table.module.css";
-import Modal from "../Modal/Modal";
+import Modal from "../EditModal/EditModal";
+import Button from "../Forms/Button";
 
 interface Column {
   title: string;
@@ -57,7 +58,9 @@ const Table: React.FC<TableProps> = ({
         <div className={styles.tableTitle}>{title}</div>
         {createButton && (
           <div className={styles.tableButtons}>
-            <button onClick={handleCreate}>Criar</button>
+            <Button className={styles.create} onClick={handleCreate}>
+              Criar
+            </Button>
           </div>
         )}
       </div>
@@ -75,9 +78,13 @@ const Table: React.FC<TableProps> = ({
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={styles.tableCell}>
                 {column.property === "button" ? (
-                  <button key={columnIndex} onClick={handleModal}>
+                  <Button
+                    className={styles.inlineButton}
+                    key={columnIndex}
+                    onClick={handleModal}
+                  >
                     {column.title}
-                  </button>
+                  </Button>
                 ) : typeof row[column.property] === "object" ? (
                   <div>{row[column.property].name}</div>
                 ) : (
