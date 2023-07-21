@@ -43,8 +43,10 @@ const Table: React.FC<TableProps> = ({
   data,
 }) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [selectedRowData, setSelectedRowData] = useState<any>(null);
 
-  const handleModal = () => {
+  const handleModal = (rowData: any) => {
+    setSelectedRowData(rowData);
     setOpenModal(!openModal);
   };
 
@@ -81,7 +83,7 @@ const Table: React.FC<TableProps> = ({
                   <Button
                     className={styles.inlineButton}
                     key={columnIndex}
-                    onClick={handleModal}
+                    onClick={() => handleModal(row)}
                   >
                     {column.title}
                   </Button>
@@ -96,7 +98,12 @@ const Table: React.FC<TableProps> = ({
         ))}
       </div>
       {openModal && (
-        <Modal className={styles.modal} fields={columns} data={data} />
+        <Modal
+          className={styles.modal}
+          fields={columns}
+          data={data}
+          isOpen={openModal}
+        />
       )}
     </div>
   );
