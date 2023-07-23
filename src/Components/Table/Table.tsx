@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Table.module.css";
 import Modal from "../EditModal/EditModal";
 import Button from "../Forms/Button";
+import { convertDateFormat, handleTextBoolean } from "../Helper";
 
 interface Column {
   title: string;
@@ -48,11 +49,13 @@ const Table: React.FC<TableProps> = ({
   const handleModal = (rowData: any) => {
     setSelectedRowData(rowData);
     setOpenModal(!openModal);
+    console.log("selectedRowData: ", selectedRowData);
   };
 
   function handleCreate(): void {
     console.log("handleCreate on Table.tsx");
   }
+  console.log("data: ", data);
 
   return (
     <div className={styles.genericTable}>
@@ -89,8 +92,10 @@ const Table: React.FC<TableProps> = ({
                   </Button>
                 ) : typeof row[column.property] === "object" ? (
                   <div>{row[column.property].name}</div>
+                ) : typeof row[column.property] === "boolean" ? (
+                  <div>{handleTextBoolean(row[column.property])}</div>
                 ) : (
-                  row[column.property]
+                  convertDateFormat(row[column.property])
                 )}
               </div>
             ))}
@@ -101,8 +106,9 @@ const Table: React.FC<TableProps> = ({
         <Modal
           className={styles.modal}
           fields={columns}
-          data={data}
+          data={selectedRowData}
           isOpen={openModal}
+          setIsOpen={setOpenModal}
         />
       )}
     </div>

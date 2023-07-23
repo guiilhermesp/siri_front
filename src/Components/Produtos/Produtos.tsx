@@ -67,7 +67,6 @@ const Produtos = () => {
   ];
 
   const { data } = useSelector((state: any) => state.productsSlice);
-  console.log("response produtos: ", data);
 
   useEffect(() => {
     dispatch<any>(fetchProducts("1"));
