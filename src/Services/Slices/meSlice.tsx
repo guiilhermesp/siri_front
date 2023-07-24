@@ -51,6 +51,7 @@ export const fetchMe =
     dispatch(getMe());
     try {
       const response = await userServices.getUser(body);
+      console.log("response: ", response);
       dispatch(getMeSuccess(response));
     } catch (err) {
       console.log("err: ", err);

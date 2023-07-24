@@ -22,3 +22,7 @@ export function convertDateFormat(inputDate: string): string {
     return inputDate;
   }
 }
+
+export function handleShowObjectText(text: { name: string } | string) {
+  return typeof text === "object" ? text.name : text;
+}

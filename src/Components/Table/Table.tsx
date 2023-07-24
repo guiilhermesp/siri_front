@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Table.module.css";
-import Modal from "../EditModal/EditModal";
+import EditModal from "../EditModal/EditModal";
 import Button from "../Forms/Button";
 import { convertDateFormat, handleTextBoolean } from "../Helper";
 
@@ -103,7 +103,7 @@ const Table: React.FC<TableProps> = ({
         ))}
       </div>
       {openModal && (
-        <Modal
+        <EditModal
           className={styles.modal}
           fields={columns}
           data={selectedRowData}
