@@ -1,0 +1,95 @@
+.container {
+  display: table;
+  width: 30%;
+  border-collapse: collapse;
+}
+
+.genericTable {
+  width: 100%;
+}
+
+.headerTable {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.tableHeader {
+  display: table;
+  width: 100%;
+}
+
+.columnHeader {
+  display: table-cell;
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.columnTitle {
+  display: flex;
+  align-items: center;
+}
+
+.columnTitle span {
+  margin-right: 5px;
+}
+
+.columnTitle::after {
+  content: "";
+  flex-grow: 1;
+  border-bottom: 1px solid #ccc;
+  margin-left: 10px;
+}
+
+.tableBody {
+  display: table-row-group;
+}
+
+.tableRow {
+  display: table-row;
+}
+
+.tableCell {
+  display: table-cell;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.75rem;
+  margin: 0.1rem;
+}
+
+.label {
+  margin-right: 5px;
+}
+
+.input {
+  max-width: 60%;
+  margin: 0 0 0 0.5rem;
+}
+
+.handle {
+  display: flex;
+  justify-content: end;
+  margin: 1.5rem 0 0 0;
+}
+
+.button {
+  margin: 0 0.5rem 0;
+  height: 2.25rem;
+}

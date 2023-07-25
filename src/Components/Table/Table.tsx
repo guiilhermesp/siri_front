@@ -3,6 +3,7 @@ import styles from "./Table.module.css";
 import EditModal from "../EditModal/EditModal";
 import Button from "../Forms/Button";
 import { convertDateFormat, handleTextBoolean } from "../Helper";
+import CreateModal from "../CreateModal/CreateModal";
 
 interface Column {
   title: string;
@@ -43,18 +44,21 @@ const Table: React.FC<TableProps> = ({
   columns,
   data,
 }) => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
   const [selectedRowData, setSelectedRowData] = useState<any>(null);
 
-  const handleModal = (rowData: any) => {
+  const handleEditModal = (rowData: any) => {
     setSelectedRowData(rowData);
-    setOpenModal(!openModal);
+    setOpenEditModal(!openEditModal);
     console.log("selectedRowData: ", selectedRowData);
   };
 
-  function handleCreate(): void {
-    console.log("handleCreate on Table.tsx");
-  }
+  const handleCreateModal = (rowData: any) => {
+    setSelectedRowData(rowData);
+    setOpenCreateModal(!openEditModal);
+    console.log("selectedRowData: ", selectedRowData);
+  };
   console.log("data: ", data);
 
   return (
@@ -63,7 +67,7 @@ const Table: React.FC<TableProps> = ({
         <div className={styles.tableTitle}>{title}</div>
         {createButton && (
           <div className={styles.tableButtons}>
-            <Button className={styles.create} onClick={handleCreate}>
+            <Button className={styles.create} onClick={handleCreateModal}>
               Criar
             </Button>
           </div>
@@ -86,7 +90,7 @@ const Table: React.FC<TableProps> = ({
                   <Button
                     className={styles.inlineButton}
                     key={columnIndex}
-                    onClick={() => handleModal(row)}
+                    onClick={() => handleEditModal(row)}
                   >
                     {column.title}
                   </Button>
@@ -102,13 +106,22 @@ const Table: React.FC<TableProps> = ({
           </div>
         ))}
       </div>
-      {openModal && (
+      {openEditModal && (
         <EditModal
           className={styles.modal}
           fields={columns}
           data={selectedRowData}
-          isOpen={openModal}
-          setIsOpen={setOpenModal}
+          isOpen={openEditModal}
+          setIsOpen={setOpenEditModal}
+        />
+      )}
+      {openCreateModal && (
+        <CreateModal
+          className={styles.modal}
+          fields={columns}
+          data={selectedRowData}
+          isOpen={openCreateModal}
+          setIsOpen={setOpenCreateModal}
         />
       )}
     </div>

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import loginServices from "../login";
 import userServices from "../user";
 
 interface MeState {

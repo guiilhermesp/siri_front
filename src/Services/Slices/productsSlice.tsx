@@ -14,7 +14,7 @@ const initialState: ProductsState = {
   error: false,
 };
 
-const accountSlice = createSlice({
+const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
@@ -37,9 +37,9 @@ const accountSlice = createSlice({
 });
 
 export const { getProducts, getProductsSuccess, getProductsFailure } =
-  accountSlice.actions;
+  productsSlice.actions;
 
-export default accountSlice.reducer;
+export default productsSlice.reducer;
 
 export const fetchProducts =
   (page: string) =>
