@@ -26,3 +26,25 @@ export function convertDateFormat(inputDate: string): string {
 export function handleShowObjectText(text: { name: string } | string) {
   return typeof text === "object" ? text.name : text;
 }
+
+export const optionsType = [
+  "Portaria",
+  "Ato",
+  "Relatório",
+  "Edital",
+  "Extrato",
+  "Provimento",
+  "Manifestação",
+  "Deliberação",
+  "Resolução",
+  "Licitação",
+  "Contrato",
+  "Errata de Publicação",
+  "Dispensa de Licitação",
+  "Inexigibilidade de Licitação",
+  "Avisos",
+  "Resultados",
+  "Concursos",
+  "Súmulas",
+  "circular",
+];

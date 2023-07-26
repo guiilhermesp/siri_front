@@ -59,7 +59,6 @@ const Table: React.FC<TableProps> = ({
     setOpenCreateModal(!openEditModal);
     console.log("selectedRowData: ", selectedRowData);
   };
-  console.log("data: ", data);
 
   return (
     <div className={styles.genericTable}>

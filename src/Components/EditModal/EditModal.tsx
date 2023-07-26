@@ -3,13 +3,18 @@ import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
-import { convertDateFormat, handleShowObjectText } from "../Helper";
+import {
+  convertDateFormat,
+  handleShowObjectText,
+  optionsType,
+} from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
 import React from "react";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
 import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
+import SelectedList from "../SelectedList/SelectedList";
 
 interface Field {
   property: string;
@@ -36,15 +41,13 @@ const EditModal: React.FC<ModalProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
+  const [showOptions, setShowOptions] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>(data || {});
   const measures = useSelector<any>((state) => state.allMeasuresSlice);
   const categories = useSelector<any>((state) => state.allCategoriesSlice);
   const sectors = useSelector<any>((state) => state.allSectorsSlice);
   const suppliers = useSelector<any>((state) => state.allSuppliersSlice);
-  console.log("measures: ", measures);
-  console.log("categories: ", categories);
-  console.log("sectors: ", sectors);
-  console.log("suppliers: ", suppliers);
+  const listOfOptions = ["measure", "category", "supplier", "sector"];
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -63,6 +66,25 @@ const EditModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {};
+
+  const handleFocus = () => {
+    setShowOptions(true);
+  };
+  const handleBlur = () => {
+    setTimeout(() => {
+      setShowOptions(false);
+    }, 75);
+  };
+
+  const handleOptionClick = (field: any, e: any) => {
+    const option = e.currentTarget.value;
+    if (!formData.type.includes(option)) {
+      setFormData((prevRange: any) => ({
+        ...prevRange,
+        type: [].concat(...formData[field], option),
+      }));
+    }
+  };
 
   React.useEffect(() => {
     dispatch<any>(fetchAllMeasures());
@@ -85,15 +107,49 @@ const EditModal: React.FC<ModalProps> = ({
                 <label htmlFor={field.property} className={styles.label}>
                   {field.title}
                 </label>
-                <Input
-                  type="text"
-                  id={field.property}
-                  value={convertDateFormat(
-                    handleShowObjectText(formData[field.property])
-                  )}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                />
+                {listOfOptions.includes(field.property) ? (
+                  <>
+                    <SelectedList
+                      setList={setFormData}
+                      list={formData}
+                      field={field.property}
+                      value={formData}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                    />
+                    {showOptions && (
+                      <div className={styles.list}>
+                        {optionsType.map((option) => (
+                          <button
+                            className={`${styles.option} ${
+                              formData.type.includes(option)
+                                ? styles.selectedOption
+                                : ""
+                            }`}
+                            key={uuidv4()}
+                            value={option}
+                            onClick={(e) =>
+                              handleOptionClick(field.property, e)
+                            }
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Input
+                    type="text"
+                    id={field.property}
+                    value={convertDateFormat(
+                      handleShowObjectText(formData[field.property])
+                    )}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    readOnly={listOfOptions.includes(field.property)}
+                  />
+                )}
               </div>
             </>
           )}
