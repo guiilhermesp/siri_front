@@ -8,6 +8,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: any;
   id?: any;
   value?: any;
+  onFocus?: any;
+  onBlur?: any;
 }
 
 const Input: React.FC<InputProps> = ({
