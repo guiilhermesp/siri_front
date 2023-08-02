@@ -14,11 +14,12 @@ interface iSelectedList {
   className?: any;
   classNameDiv?: any;
   options?: string[];
+  defaultValue?: string;
 }
 
 const SelectedList: React.FC<iSelectedList> = ({
   setList,
-  list = [],
+  list = {},
   placeholder,
   isType,
   field,
@@ -72,15 +73,19 @@ const SelectedList: React.FC<iSelectedList> = ({
 
   const handleOption = (e: any) => {
     const option = e.currentTarget.value;
-    console.log("option: ", option);
-    if (!list[field]?.includes(option)) {
+    if (!Array.isArray(list[field])) {
       setList((prevRange: any) => ({
         ...prevRange,
-        [field]: [].concat(...prevRange[field], option),
+        [field]: [option],
       }));
-      console.log("list: ", list); // Note: This may still show the old value of `list`
+    } else if (!list[field]?.includes(option)) {
+      setList((prevRange: any) => ({
+        ...prevRange,
+        [field]: [...prevRange[field], option],
+      }));
     }
   };
+
   return (
     <div className={styles.container}>
       <Input
@@ -95,22 +100,20 @@ const SelectedList: React.FC<iSelectedList> = ({
         {...props}
       />
 
-      {/* {showOptions && ( */}
-      <div className={styles.list}>
-        {options?.map((option: any) => (
-          <button
-            className={`${styles.option} ${
-              list[field]?.includes(option) ? styles.selectedOption : ""
-            }`}
-            key={uuidv4()}
-            value={option}
-            onClick={handleOption}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-      {/* )} */}
+      {showOptions && (
+        <div className={styles.list}>
+          {options?.map((option: any) => (
+            <button
+              className={`${styles.option}`}
+              key={uuidv4()}
+              value={option}
+              onClick={handleOption}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
 
       {list[field]?.length > 0 && (
         <div className={styles.selected}>

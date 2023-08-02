@@ -3,11 +3,7 @@ import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
-import {
-  convertDateFormat,
-  handleShowObjectText,
-  optionsType,
-} from "../Helper";
+import { convertDateFormat, handleShowObjectText } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
 import React from "react";
@@ -43,24 +39,11 @@ const EditModal: React.FC<ModalProps> = ({
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
   const [formData, setFormData] = useState<any>(data || {});
   const [options, setOptions] = useState<any>({});
-  const measure = useSelector<any>((state) => state.allMeasuresSlice);
-  const category = useSelector<any>((state) => state.allCategoriesSlice);
-  const sector = useSelector<any>((state) => state.allSectorsSlice);
-  const supplier = useSelector<any>((state) => state.allSuppliersSlice);
+  const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
+  const category: any = useSelector<any>((state) => state.allCategoriesSlice);
+  const sector: any = useSelector<any>((state) => state.allSectorsSlice);
+  const supplier: any = useSelector<any>((state) => state.allSuppliersSlice);
   const listOfOptions = ["measure", "category", "supplier", "sector"];
-
-  // Define the OptionSelectors type
-  type OptionSelectors = {
-    [key: string]: any; // Replace 'any' with the appropriate type of your selectors
-  };
-
-  // Use OptionSelectors type for optionSelectors
-  const optionSelectors: OptionSelectors = {
-    measure: useSelector<any>((state) => state.allMeasuresSlice),
-    category: useSelector<any>((state) => state.allCategoriesSlice),
-    supplier: useSelector<any>((state) => state.allSuppliersSlice),
-    sector: useSelector<any>((state) => state.allSectorsSlice),
-  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -80,13 +63,26 @@ const EditModal: React.FC<ModalProps> = ({
 
   const handleSubmit = () => {};
 
-  const handleOptionClick = (field: any, e: any) => {
-    const option = e.currentTarget.value;
-    if (!formData[field].includes(option)) {
-      setFormData((prevFormData: any) => ({
-        ...prevFormData,
-        [field]: [...prevFormData[field], option],
-      }));
+  const extractNamesFromData = (data: any[]) => {
+    return data.map((item) => item.name);
+  };
+
+  const extractNames = (property: string) => {
+    switch (property) {
+      case "measure":
+        console.log(
+          "extractNamesFromData(measure.data):",
+          extractNamesFromData(measure.data)
+        );
+        return extractNamesFromData(measure.data);
+      case "category":
+        return extractNamesFromData(category.data);
+      case "sector":
+        return extractNamesFromData(sector.data);
+      case "supplier":
+        return extractNamesFromData(supplier.data);
+      default:
+        return [];
     }
   };
 
@@ -96,16 +92,6 @@ const EditModal: React.FC<ModalProps> = ({
     dispatch<any>(fetchAllSectors());
     dispatch<any>(fetchAllSuppliers());
   }, []);
-
-  useEffect(() => {
-    const tempOptions: OptionSelectors = {};
-    listOfOptions.forEach((item) => {
-      if (optionSelectors[item]?.data) {
-        tempOptions[item] = optionSelectors[item].data;
-      }
-    });
-    setOptions(tempOptions);
-  }, [optionSelectors, listOfOptions]);
 
   return (
     <div
@@ -122,25 +108,20 @@ const EditModal: React.FC<ModalProps> = ({
                     className={styles.modal}
                     onClick={() => {
                       console.log(
-                        "options[field.property]?.data",
-                        options[field.property]?.data
+                        "extractNames(field.property)",
+                        extractNames(field.property)
                       );
                     }}
                   >
                     <label htmlFor={field.property} className={styles.label}>
                       {field.title}
                     </label>
-                    {/* Conditionally render the SelectedList component */}
                     <SelectedList
                       setList={setFormData}
                       list={formData}
                       field={field.property}
-                      value={formData[field.property].name}
-                      options={
-                        options[field.property]?.data
-                          ? options[field.property]?.data?.name
-                          : undefined
-                      }
+                      defaultValue={formData[field.property].name}
+                      options={extractNames(field.property)}
                       isType
                     />
                   </div>
@@ -154,7 +135,7 @@ const EditModal: React.FC<ModalProps> = ({
                     <Input
                       type="text"
                       id={field.property}
-                      value={convertDateFormat(
+                      defaultValue={convertDateFormat(
                         handleShowObjectText(formData[field.property])
                       )}
                       onChange={handleInputChange}
