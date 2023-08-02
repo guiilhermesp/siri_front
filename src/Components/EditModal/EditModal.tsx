@@ -38,7 +38,6 @@ const EditModal: React.FC<ModalProps> = ({
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
   const [formData, setFormData] = useState<any>(data || {});
-  const [options, setOptions] = useState<any>({});
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
   const sector: any = useSelector<any>((state) => state.allSectorsSlice);
@@ -70,10 +69,6 @@ const EditModal: React.FC<ModalProps> = ({
   const extractNames = (property: string) => {
     switch (property) {
       case "measure":
-        console.log(
-          "extractNamesFromData(measure.data):",
-          extractNamesFromData(measure.data)
-        );
         return extractNamesFromData(measure.data);
       case "category":
         return extractNamesFromData(category.data);
@@ -104,15 +99,7 @@ const EditModal: React.FC<ModalProps> = ({
             <>
               {listOfOptions.includes(field.property) ? (
                 <>
-                  <div
-                    className={styles.modal}
-                    onClick={() => {
-                      console.log(
-                        "extractNames(field.property)",
-                        extractNames(field.property)
-                      );
-                    }}
-                  >
+                  <div className={styles.modal}>
                     <label htmlFor={field.property} className={styles.label}>
                       {field.title}
                     </label>
@@ -123,6 +110,7 @@ const EditModal: React.FC<ModalProps> = ({
                       defaultValue={formData[field.property].name}
                       options={extractNames(field.property)}
                       isType
+                      isSingle
                     />
                   </div>
                 </>

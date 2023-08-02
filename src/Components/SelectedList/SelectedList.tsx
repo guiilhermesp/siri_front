@@ -15,6 +15,7 @@ interface iSelectedList {
   classNameDiv?: any;
   options?: string[];
   defaultValue?: string;
+  isSingle?: boolean;
 }
 
 const SelectedList: React.FC<iSelectedList> = ({
@@ -28,6 +29,7 @@ const SelectedList: React.FC<iSelectedList> = ({
   className,
   classNameDiv,
   options,
+  isSingle,
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -37,28 +39,21 @@ const SelectedList: React.FC<iSelectedList> = ({
     if (e.key === "Enter" && inputValue !== "") {
       setList((prev: any) => ({
         ...prev,
-        [field]: [...(prev[field] || []), inputValue],
+        [field]: isSingle ? [inputValue] : [...(prev[field] || []), inputValue],
       }));
+      if (isSingle) {
+        setShowOptions(false); // Hide the options after selecting a value (for isSingle mode).
+      }
       e.currentTarget.value = "";
       e.preventDefault();
     }
   };
 
   const removeItem = (keyword: string) => {
-    setList((prev: any) => {
-      const updatedKeywords = Array.isArray(prev[field])
-        ? [...prev[field]]
-        : [];
-      const index = updatedKeywords.indexOf(keyword);
-      if (index !== -1) {
-        updatedKeywords.splice(index, 1);
-      }
-
-      return {
-        ...prev,
-        [field]: updatedKeywords,
-      };
-    });
+    setList((prev: any) => ({
+      ...prev,
+      [field]: prev[field]?.filter((item: string) => item !== keyword),
+    }));
   };
 
   const handleInputChange = () => {
@@ -70,22 +65,32 @@ const SelectedList: React.FC<iSelectedList> = ({
       setShowOptions(false);
     }, 75);
   };
-
   const handleOption = (e: any) => {
     const option = e.currentTarget.value;
-    if (!Array.isArray(list[field])) {
-      setList((prevRange: any) => ({
+    setList((prevRange: any) => {
+      let updatedList;
+      if (isSingle) {
+        console.log("option:", option);
+        updatedList = option;
+        value = option;
+      } else {
+        const existingList = prevRange[field] || [];
+        if (!existingList.includes(option)) {
+          updatedList = [...existingList, option];
+        } else {
+          updatedList = existingList;
+        }
+      }
+      return {
         ...prevRange,
-        [field]: [option],
-      }));
-    } else if (!list[field]?.includes(option)) {
-      setList((prevRange: any) => ({
-        ...prevRange,
-        [field]: [...prevRange[field], option],
-      }));
+        [field]: updatedList,
+      };
+    });
+    if (isSingle) {
+      setShowOptions(false);
     }
   };
-
+  console.log("list: ", list);
   return (
     <div className={styles.container}>
       <Input
@@ -115,7 +120,7 @@ const SelectedList: React.FC<iSelectedList> = ({
         </div>
       )}
 
-      {list[field]?.length > 0 && (
+      {list[field]?.length > 0 && !isSingle && (
         <div className={styles.selected}>
           {list[field]?.map((item: string) => (
             <div key={uuidv4()} className={`${styles.item} ${classNameDiv}`}>
