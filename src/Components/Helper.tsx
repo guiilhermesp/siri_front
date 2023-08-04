@@ -27,6 +27,14 @@ export function handleShowObjectText(text: { name: string } | string) {
   return typeof text === "object" ? text.name : text;
 }
 
+export function filterColumns(columns: any[], remove: string[]) {
+  return columns.filter((column) => !remove.includes(column.property));
+}
+
+export function extractNamesFromData(data: any[]) {
+  return data.map((item) => item.name);
+}
+
 export const optionsType = [
   "Portaria",
   "Ato",

@@ -3,7 +3,11 @@ import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
-import { convertDateFormat, handleShowObjectText } from "../Helper";
+import {
+  convertDateFormat,
+  extractNamesFromData,
+  handleShowObjectText,
+} from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
 import React from "react";
@@ -25,6 +29,7 @@ interface ModalProps {
   isOpen: boolean;
   data?: any;
   setIsOpen: any;
+  fetch: any;
 }
 
 const EditModal: React.FC<ModalProps> = ({
@@ -34,6 +39,7 @@ const EditModal: React.FC<ModalProps> = ({
   data,
   isOpen,
   setIsOpen,
+  fetch,
 }) => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
@@ -60,10 +66,8 @@ const EditModal: React.FC<ModalProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const handleSubmit = () => {};
-
-  const extractNamesFromData = (data: any[]) => {
-    return data.map((item) => item.name);
+  const handleSubmit = () => {
+    // dispatch<any>(fetch(id, body));
   };
 
   const extractNames = (property: string) => {

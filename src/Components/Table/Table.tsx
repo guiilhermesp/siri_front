@@ -15,6 +15,8 @@ interface TableProps {
   title: string;
   createButton: boolean;
   columns: Column[];
+  edit?: any;
+  create?: any;
   data: {
     id: number;
     name: string;
@@ -43,6 +45,8 @@ const Table: React.FC<TableProps> = ({
   createButton,
   columns,
   data,
+  edit,
+  create,
 }) => {
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
@@ -55,7 +59,6 @@ const Table: React.FC<TableProps> = ({
   };
 
   const handleCreateModal = (rowData: any) => {
-    setSelectedRowData(rowData);
     setOpenCreateModal(!openEditModal);
     console.log("selectedRowData: ", selectedRowData);
   };
@@ -112,15 +115,16 @@ const Table: React.FC<TableProps> = ({
           data={selectedRowData}
           isOpen={openEditModal}
           setIsOpen={setOpenEditModal}
+          fetch={edit}
         />
       )}
       {openCreateModal && (
         <CreateModal
           className={styles.modal}
           fields={columns}
-          data={selectedRowData}
           isOpen={openCreateModal}
           setIsOpen={setOpenCreateModal}
+          fetch={create}
         />
       )}
     </div>

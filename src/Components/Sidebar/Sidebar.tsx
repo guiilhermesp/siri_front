@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../../Assets/logo_branco.png";
 
@@ -8,20 +8,27 @@ interface Page {
   path: string;
 }
 
-interface SidebarProps {
-  pages: Page[];
-  accountType: boolean | undefined | null;
-}
-
 interface HandlePages {
   [key: string]: Page[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
-  const [selectAccount, setSelectAccount] = useState<string>(
-    accountType ? "admin" : "user"
-  );
-  // let accountType = sessionStorage.getItem("is_admin");
+const Sidebar = () => {
+  const [accountType, setAccountType] = React.useState<boolean>();
+  const [currentPath, setCurrentPath] = React.useState<boolean>();
+  let location = useLocation();
+  const listOfNonSidebarVisible = ["/"];
+  const checkIfIncludes = (pathname: string) => {
+    return listOfNonSidebarVisible.includes(pathname);
+  };
+  const converter = sessionStorage.getItem("me");
+  const me = JSON.parse(converter as string);
+  React.useEffect(() => {
+    setCurrentPath(checkIfIncludes(location.pathname));
+  }, [location]);
+
+  React.useEffect(() => {
+    setAccountType(me?.is_admin);
+  }, [me]);
   const handlePages: HandlePages = {
     admin: [
       { title: "Pedidos", path: "/pedidos" },
@@ -55,34 +62,32 @@ const Sidebar: React.FC<SidebarProps> = ({ accountType }) => {
       { title: "Sair", path: "/" },
     ],
   };
-
+  if (currentPath) return null;
   return (
-    <>
-      {handlePages[selectAccount] ? (
-        <div className={styles.sidebarContainer}>
-          <div className={styles.position}>
-            <div>
-              <img
-                src={logo}
-                alt="Logo da defensoria pública"
-                width="250"
-                height="75"
-              />
-              <hr />
-            </div>
-            <ul className={styles.sidebarList}>
-              {handlePages[selectAccount]?.map((page: Page, index: any) => (
-                <li className={styles.sidebarItem} key={index}>
-                  <Link to={page.path} className={styles.sidebarLink}>
-                    {page.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <div className={styles.sidebarContainer}>
+      <div className={styles.position}>
+        <div>
+          <img
+            src={logo}
+            alt="Logo da defensoria pública"
+            width="250"
+            height="75"
+          />
+          <hr />
         </div>
-      ) : null}
-    </>
+        <ul className={styles.sidebarList}>
+          {handlePages[accountType ? "admin" : "user"]?.map(
+            (page: Page, index: any) => (
+              <li className={styles.sidebarItem} key={index}>
+                <Link to={page.path} className={styles.sidebarLink}>
+                  {page.title}
+                </Link>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    </div>
   );
 };
 

@@ -33,7 +33,7 @@ const SelectedList: React.FC<iSelectedList> = ({
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
-
+  console.log("options:", options);
   const handleAddItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value.trim();
     if (e.key === "Enter" && inputValue !== "") {
@@ -71,8 +71,8 @@ const SelectedList: React.FC<iSelectedList> = ({
       let updatedList;
       if (isSingle) {
         console.log("option:", option);
-        updatedList = option;
-        value = option;
+        updatedList = { name: option };
+        value = { name: option };
       } else {
         const existingList = prevRange[field] || [];
         if (!existingList.includes(option)) {
@@ -90,7 +90,7 @@ const SelectedList: React.FC<iSelectedList> = ({
       setShowOptions(false);
     }
   };
-  console.log("list: ", list);
+
   return (
     <div className={styles.container}>
       <Input
