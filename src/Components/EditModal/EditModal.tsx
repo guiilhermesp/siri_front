@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
@@ -6,7 +6,10 @@ import { v4 as uuidv4 } from "uuid";
 import {
   convertDateFormat,
   extractNamesFromData,
+  filterColumns,
   handleShowObjectText,
+  isBooleanDisplay,
+  removeObjectFromCode,
 } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
@@ -15,6 +18,7 @@ import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
 import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
 import SelectedList from "../SelectedList/SelectedList";
+import { fetchPatchProduct } from "../../Services/Slices/patchProduct";
 
 interface Field {
   property: string;
@@ -41,24 +45,47 @@ const EditModal: React.FC<ModalProps> = ({
   setIsOpen,
   fetch,
 }) => {
+  const listOfOptions = ["measure", "category", "supplier", "sector"];
+  const remove = ["button", "created", "updated", "id"];
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
-  const [formData, setFormData] = useState<any>(data || {});
+  const [formData, setFormData] = useState<any>(
+    data || {
+      name: "",
+      description: "",
+      code: "",
+      measure: "",
+      category: "",
+      price: "",
+      is_available: true,
+    }
+  );
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
   const sector: any = useSelector<any>((state) => state.allSectorsSlice);
   const supplier: any = useSelector<any>((state) => state.allSuppliersSlice);
-  const listOfOptions = ["measure", "category", "supplier", "sector"];
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setFormData((prevFormData: any) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
-
-    if (onChange) {
-      onChange(event);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+    const { name, value } = e.target;
+    if (name === "date") {
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setFormData((prev: any) => {
+        if (Array.isArray(prev[name])) {
+          return {
+            ...prev,
+            [name]: [...prev[name], value],
+          };
+        }
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
     }
   };
 
@@ -67,7 +94,9 @@ const EditModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {
-    // dispatch<any>(fetch(id, body));
+    dispatch<any>(
+      fetchPatchProduct(formData.id, removeObjectFromCode(formData))
+    );
   };
 
   const extractNames = (property: string) => {
@@ -92,54 +121,55 @@ const EditModal: React.FC<ModalProps> = ({
     dispatch<any>(fetchAllSuppliers());
   }, []);
 
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
   return (
     <div
       className={`${className} ${styles.container}`}
       style={{ display: openModal ? "block" : "none" }}
     >
-      {fields.map((field: Field) => (
+      {filterColumns(fields, remove).map((field: Field) => (
         <div key={uuidv4()}>
-          {field.property !== "button" && (
-            <>
-              {listOfOptions.includes(field.property) ? (
-                <>
-                  <div className={styles.modal}>
-                    <label htmlFor={field.property} className={styles.label}>
-                      {field.title}
-                    </label>
-                    <SelectedList
-                      setList={setFormData}
-                      list={formData}
-                      field={field.property}
-                      defaultValue={formData[field.property].name}
-                      options={extractNames(field.property)}
-                      isType
-                      isSingle
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={styles.modal}>
-                    <label htmlFor={field.property} className={styles.label}>
-                      {field.title}
-                    </label>
-                    <Input
-                      type="text"
-                      id={field.property}
-                      defaultValue={convertDateFormat(
-                        handleShowObjectText(formData[field.property])
-                      )}
-                      onChange={handleInputChange}
-                      className={styles.input}
-                      readOnly={
-                        listOfOptions.includes(field.property) // Set readOnly based on field type
-                      }
-                    />
-                  </div>
-                </>
-              )}
-            </>
+          {listOfOptions.includes(field.property) ? (
+            <div className={styles.modal}>
+              <label htmlFor={field.property} className={styles.label}>
+                {field.title}
+              </label>
+              <SelectedList
+                setList={setFormData}
+                list={formData}
+                field={field.property}
+                defaultValue={formData[field.property].name}
+                options={extractNames(field.property)}
+                isType
+                isSingle
+                readOnly
+                onChange={(selectedOption: any) => {
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    [field.property]: selectedOption?.id,
+                  }));
+                }}
+              />
+            </div>
+          ) : (
+            <div className={styles.modal}>
+              <label htmlFor={field.property} className={styles.label}>
+                {field.title}
+              </label>
+              <Input
+                type="text"
+                name={field.property}
+                value={isBooleanDisplay(formData[field.property])}
+                onChange={handleChange}
+                className={styles.input}
+                ref={inputRef}
+              />
+            </div>
           )}
         </div>
       ))}

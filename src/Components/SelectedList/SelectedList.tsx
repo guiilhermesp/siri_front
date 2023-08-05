@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./SelectedList.module.css";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
+import { extractNamesFromData } from "../Helper";
 
 interface iSelectedList {
   setList: any;
@@ -13,9 +14,10 @@ interface iSelectedList {
   readOnly?: boolean;
   className?: any;
   classNameDiv?: any;
-  options?: string[];
+  options?: any;
   defaultValue?: string;
   isSingle?: boolean;
+  onChange?: any;
 }
 
 const SelectedList: React.FC<iSelectedList> = ({
@@ -33,7 +35,6 @@ const SelectedList: React.FC<iSelectedList> = ({
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  console.log("options:", options);
   const handleAddItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value.trim();
     if (e.key === "Enter" && inputValue !== "") {
@@ -65,27 +66,16 @@ const SelectedList: React.FC<iSelectedList> = ({
       setShowOptions(false);
     }, 75);
   };
+
   const handleOption = (e: any) => {
     const option = e.currentTarget.value;
-    setList((prevRange: any) => {
-      let updatedList;
-      if (isSingle) {
-        console.log("option:", option);
-        updatedList = { name: option };
-        value = { name: option };
-      } else {
-        const existingList = prevRange[field] || [];
-        if (!existingList.includes(option)) {
-          updatedList = [...existingList, option];
-        } else {
-          updatedList = existingList;
-        }
-      }
-      return {
-        ...prevRange,
-        [field]: updatedList,
-      };
-    });
+    const selectedOption = options.find((opt: any) => opt.name === option);
+
+    setList((prevRange: any) => ({
+      ...prevRange,
+      [field]: selectedOption,
+    }));
+
     if (isSingle) {
       setShowOptions(false);
     }
@@ -107,7 +97,7 @@ const SelectedList: React.FC<iSelectedList> = ({
 
       {showOptions && (
         <div className={styles.list}>
-          {options?.map((option: any) => (
+          {extractNamesFromData(options).map((option: any) => (
             <button
               className={`${styles.option}`}
               key={uuidv4()}

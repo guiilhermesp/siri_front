@@ -35,24 +35,21 @@ export function extractNamesFromData(data: any[]) {
   return data.map((item) => item.name);
 }
 
-export const optionsType = [
-  "Portaria",
-  "Ato",
-  "Relatório",
-  "Edital",
-  "Extrato",
-  "Provimento",
-  "Manifestação",
-  "Deliberação",
-  "Resolução",
-  "Licitação",
-  "Contrato",
-  "Errata de Publicação",
-  "Dispensa de Licitação",
-  "Inexigibilidade de Licitação",
-  "Avisos",
-  "Resultados",
-  "Concursos",
-  "Súmulas",
-  "circular",
-];
+export function removeObjectFromCode(data: any) {
+  const { measure, sector, supplier, category, ...rest } = data;
+  return {
+    ...rest,
+    measure: parseInt(measure?.id, 10) || measure,
+    sector: parseInt(sector?.id, 10) || sector,
+    supplier: parseInt(supplier?.id, 10) || supplier,
+    category: parseInt(category?.id, 10) || category,
+  };
+}
+
+export function isBooleanDisplay(data: any) {
+  if (typeof data === "boolean") {
+    return data ? "sim" : "nao";
+  } else {
+    return data;
+  }
+}

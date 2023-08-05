@@ -1,38 +1,56 @@
-import { ChangeEventHandler, InputHTMLAttributes } from "react";
+import React, { useEffect, useRef, ForwardedRef } from "react";
 import styles from "./Input.module.css";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  placeholder?: string;
-  className?: string;
-  type?: any;
-  id?: any;
+interface iInput {
+  className?: any;
+  name?: string;
   value?: any;
+  content?: any;
+  onClick?: any;
+  onChange?: any;
   onFocus?: any;
   onBlur?: any;
+  type?: any;
+  placeholder?: string;
+  onKeyPress?: any;
+  id?: any;
+  readOnly?: boolean;
+  min?: string;
+  max?: string;
+  step?: string;
+  pattern?: string;
+  defaultValue?: any;
 }
 
-const Input: React.FC<InputProps> = ({
-  onChange,
-  className,
-  placeholder,
-  id,
-  value,
-  type,
-  ...props
-}) => {
-  const inputClassName = `${className || ""} ${styles.content}`;
+const Input: React.ForwardRefRenderFunction<HTMLInputElement, iInput> = (
+  { className, onClick, ...props },
+  ref
+) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current && document.activeElement !== inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [props.value]);
+
   return (
     <input
-      className={inputClassName.trim()}
-      onChange={onChange}
-      placeholder={placeholder}
-      type={type}
-      id={id}
-      value={value}
+      className={`${styles.content} ${className}`}
+      onClick={onClick}
+      ref={(el) => {
+        inputRef.current = el;
+        if (ref) {
+          if (typeof ref === "function") {
+            ref(el);
+          } else {
+            ref.current = el;
+          }
+        }
+      }}
       {...props}
     />
   );
 };
 
-export default Input;
+export default React.forwardRef(Input);

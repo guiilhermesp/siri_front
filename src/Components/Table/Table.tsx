@@ -55,16 +55,17 @@ const Table: React.FC<TableProps> = ({
   const handleEditModal = (rowData: any) => {
     setSelectedRowData(rowData);
     setOpenEditModal(!openEditModal);
-    console.log("selectedRowData: ", selectedRowData);
   };
 
-  const handleCreateModal = (rowData: any) => {
+  const handleCreateModal = () => {
     setOpenCreateModal(!openEditModal);
-    console.log("selectedRowData: ", selectedRowData);
   };
 
   return (
-    <div className={styles.genericTable}>
+    <div
+      className={styles.genericTable}
+      onClick={() => console.log("click on table")}
+    >
       <div className={styles.headerTable}>
         <div className={styles.tableTitle}>{title}</div>
         {createButton && (

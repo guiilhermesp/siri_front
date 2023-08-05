@@ -5,9 +5,9 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
 import {
-  convertDateFormat,
-  extractNamesFromData,
-  handleShowObjectText,
+  filterColumns,
+  isBooleanDisplay,
+  removeObjectFromCode,
 } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import SelectedList from "../SelectedList/SelectedList";
@@ -15,6 +15,7 @@ import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
 import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
+import { fetchPostProduct } from "../../Services/Slices/postProduct";
 
 interface Field {
   property: string;
@@ -39,6 +40,8 @@ const CreateModal: React.FC<ModalProps> = ({
   setIsOpen,
   fetch,
 }) => {
+  const listOfOptions = ["measure", "category", "supplier", "sector"];
+  const remove = ["button", "created", "updated", "id"];
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
   const [formData, setFormData] = useState<any>({
@@ -48,26 +51,14 @@ const CreateModal: React.FC<ModalProps> = ({
     measure: "",
     category: "",
     price: "",
-    is_available: "",
+    is_available: true,
   });
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
   const sector: any = useSelector<any>((state) => state.allSectorsSlice);
   const supplier: any = useSelector<any>((state) => state.allSuppliersSlice);
-  const listOfOptions = ["measure", "category", "supplier", "sector"];
 
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { id, value } = event.target;
-  //   setFormData((prevFormData: any) => ({
-  //     ...prevFormData,
-  //     [id]: value,
-  //   }));
-
-  //   if (onChange) {
-  //     onChange(event);
-  //   }
-  // };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = e.target;
     if (name === "date") {
       setFormData((prev: any) => ({
@@ -95,20 +86,19 @@ const CreateModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {
-    // dispatch<any>(fetch(id, body));
+    dispatch<any>(fetchPostProduct(removeObjectFromCode(formData)));
   };
 
   const extractNames = (property: string) => {
     switch (property) {
       case "measure":
-        console.log(extractNamesFromData(measure.data));
-        return extractNamesFromData(measure.data);
+        return measure.data;
       case "category":
-        return extractNamesFromData(category.data);
+        return category.data;
       case "sector":
-        return extractNamesFromData(sector.data);
+        return sector.data;
       case "supplier":
-        return extractNamesFromData(supplier.data);
+        return supplier.data;
       default:
         return [];
     }
@@ -126,46 +116,43 @@ const CreateModal: React.FC<ModalProps> = ({
       className={`${className} ${styles.container}`}
       style={{ display: openModal ? "block" : "none" }}
     >
-      {fields.map((field: Field) => (
+      {filterColumns(fields, remove).map((field: Field) => (
         <div key={uuidv4()}>
-          {field.property !== "button" && (
-            <>
-              {listOfOptions.includes(field.property) ? (
-                <>
-                  <div className={styles.modal}>
-                    <label htmlFor={field.property} className={styles.label}>
-                      {field.title}
-                    </label>
-                    <SelectedList
-                      setList={setFormData}
-                      list={formData}
-                      field={field.property}
-                      defaultValue={formData[field.property]}
-                      options={extractNames(field.property)}
-                      isType
-                      isSingle
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={styles.modal}>
-                    <label htmlFor={field.property} className={styles.label}>
-                      {field.title}
-                    </label>
-                    <Input
-                      type="text"
-                      id={field.property}
-                      value={convertDateFormat(
-                        handleShowObjectText(formData[field.property])
-                      )}
-                      onChange={handleInputChange}
-                      className={styles.input}
-                    />
-                  </div>
-                </>
-              )}
-            </>
+          {listOfOptions.includes(field.property) ? (
+            <div className={styles.modal}>
+              <label htmlFor={field.property} className={styles.label}>
+                {field.title}
+              </label>
+              <SelectedList
+                setList={setFormData}
+                list={formData}
+                field={field.property}
+                defaultValue={formData[field.property].name}
+                options={extractNames(field.property)}
+                isType
+                isSingle
+                readOnly
+                onChange={(selectedOption: any) => {
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    [field.property]: selectedOption?.id,
+                  }));
+                }}
+              />
+            </div>
+          ) : (
+            <div className={styles.modal}>
+              <label htmlFor={field.property} className={styles.label}>
+                {field.title}
+              </label>
+              <Input
+                type="text"
+                name={field.property}
+                value={isBooleanDisplay(formData[field.property])}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
           )}
         </div>
       ))}
@@ -174,7 +161,7 @@ const CreateModal: React.FC<ModalProps> = ({
           Cancel
         </Button>
         <Button className={styles.button} onClick={handleSubmit}>
-          Salvar
+          Criar
         </Button>
       </div>
     </div>
