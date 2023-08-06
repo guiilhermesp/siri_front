@@ -43,7 +43,7 @@ const SelectedList: React.FC<iSelectedList> = ({
         [field]: isSingle ? [inputValue] : [...(prev[field] || []), inputValue],
       }));
       if (isSingle) {
-        setShowOptions(false); // Hide the options after selecting a value (for isSingle mode).
+        setShowOptions(false);
       }
       e.currentTarget.value = "";
       e.preventDefault();
@@ -97,20 +97,20 @@ const SelectedList: React.FC<iSelectedList> = ({
 
       {showOptions && (
         <div className={styles.list}>
-          {extractNamesFromData(options).map((option: any) => (
+          {options.map((option: any) => (
             <button
               className={`${styles.option}`}
               key={uuidv4()}
-              value={option}
+              value={option.name}
               onClick={handleOption}
             >
-              {option}
+              {option.name}
             </button>
           ))}
         </div>
       )}
 
-      {list[field]?.length > 0 && !isSingle && (
+      {/* {list[field]?.length > 0 && !isSingle && (
         <div className={styles.selected}>
           {list[field]?.map((item: string) => (
             <div key={uuidv4()} className={`${styles.item} ${classNameDiv}`}>
@@ -124,7 +124,7 @@ const SelectedList: React.FC<iSelectedList> = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

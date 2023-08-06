@@ -3,14 +3,7 @@ import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { v4 as uuidv4 } from "uuid";
-import {
-  convertDateFormat,
-  extractNamesFromData,
-  filterColumns,
-  handleShowObjectText,
-  isBooleanDisplay,
-  removeObjectFromCode,
-} from "../Helper";
+import { filterColumns, removeObjectFromCode } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
 import React from "react";
@@ -27,7 +20,6 @@ interface Field {
 
 interface ModalProps {
   fields: Field[];
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit?: () => void;
   className?: string;
   isOpen: boolean;
@@ -38,7 +30,6 @@ interface ModalProps {
 
 const EditModal: React.FC<ModalProps> = ({
   fields,
-  onChange,
   className,
   data,
   isOpen,
@@ -60,33 +51,17 @@ const EditModal: React.FC<ModalProps> = ({
       is_available: true,
     }
   );
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | any>(null);
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
   const sector: any = useSelector<any>((state) => state.allSectorsSlice);
   const supplier: any = useSelector<any>((state) => state.allSuppliersSlice);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = e.target;
-    if (name === "date") {
-      setFormData((prev: any) => ({
-        ...prev,
-        [name]: value,
-      }));
-    } else {
-      setFormData((prev: any) => {
-        if (Array.isArray(prev[name])) {
-          return {
-            ...prev,
-            [name]: [...prev[name], value],
-          };
-        }
-        return {
-          ...prev,
-          [name]: value,
-        };
-      });
-    }
+    setFormData((prev: any) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleCancel = () => {
@@ -102,13 +77,13 @@ const EditModal: React.FC<ModalProps> = ({
   const extractNames = (property: string) => {
     switch (property) {
       case "measure":
-        return extractNamesFromData(measure.data);
+        return measure.data;
       case "category":
-        return extractNamesFromData(category.data);
+        return category.data;
       case "sector":
-        return extractNamesFromData(sector.data);
+        return sector.data;
       case "supplier":
-        return extractNamesFromData(supplier.data);
+        return supplier.data;
       default:
         return [];
     }
@@ -123,7 +98,12 @@ const EditModal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+      const firstInput = inputRef.current.parentElement.querySelector(
+        'input:not([type="hidden"])'
+      );
+      if (firstInput) {
+        firstInput.focus();
+      }
     }
   }, [isOpen]);
 
@@ -143,7 +123,7 @@ const EditModal: React.FC<ModalProps> = ({
                 setList={setFormData}
                 list={formData}
                 field={field.property}
-                defaultValue={formData[field.property].name}
+                defaultValue={formData[field.property]?.name}
                 options={extractNames(field.property)}
                 isType
                 isSingle
@@ -164,10 +144,10 @@ const EditModal: React.FC<ModalProps> = ({
               <Input
                 type="text"
                 name={field.property}
-                value={isBooleanDisplay(formData[field.property])}
+                value={formData[field.property]}
                 onChange={handleChange}
                 className={styles.input}
-                ref={inputRef}
+                ref={field.property === fields[0].property ? inputRef : null}
               />
             </div>
           )}
