@@ -137,14 +137,14 @@ const stocksServices = {
 
   patchProduct: async (id: string, body: any) => {
     return axios
-      .patch(`${PATH.stocks}/products/${id}`, body, options)
+      .patch(`${PATH.stocks}/products/${id}/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
 
   deleteProduct: async (id: string | number) => {
     return axios
-      .delete(`${PATH.stocks}/products/${id}`, options)
+      .delete(`${PATH.stocks}/products/${id}/`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

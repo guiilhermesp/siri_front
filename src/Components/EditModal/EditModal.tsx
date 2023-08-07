@@ -35,7 +35,7 @@ const EditModal: React.FC<ModalProps> = ({
   fetch,
 }) => {
   const listOfOptions = ["measure", "category", "supplier", "sector"];
-  const remove = ["button", "created", "updated", "id"];
+  const remove = ["button", "created", "updated", "id", "delete", "edit"];
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
   const [formData, setFormData] = useState<any>(

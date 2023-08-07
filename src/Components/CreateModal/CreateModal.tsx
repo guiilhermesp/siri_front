@@ -6,6 +6,7 @@ import Input from "../Forms/Input";
 import {
   filterColumns,
   isBooleanDisplay,
+  is_available,
   removeObjectFromCode,
 } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,8 +40,14 @@ const CreateModal: React.FC<ModalProps> = ({
   setIsOpen,
   fetch,
 }) => {
-  const listOfOptions = ["measure", "category", "supplier", "sector"];
-  const remove = ["button", "created", "updated", "id"];
+  const listOfOptions = [
+    "measure",
+    "category",
+    "supplier",
+    "sector",
+    "is_available",
+  ];
+  const remove = ["button", "created", "updated", "id", "delete", "edit"];
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
   const [formData, setFormData] = useState<any>({
@@ -50,7 +57,7 @@ const CreateModal: React.FC<ModalProps> = ({
     measure: "",
     category: "",
     price: "",
-    is_available: true,
+    is_available: "",
   });
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
@@ -98,6 +105,8 @@ const CreateModal: React.FC<ModalProps> = ({
         return sector.data;
       case "supplier":
         return supplier.data;
+      case "is_available":
+        return is_available;
       default:
         return [];
     }
@@ -126,7 +135,7 @@ const CreateModal: React.FC<ModalProps> = ({
                 setList={setFormData}
                 list={formData}
                 field={field.property}
-                defaultValue={formData[field.property].name}
+                value={formData[field.property].name}
                 options={extractNames(field.property)}
                 isType
                 isSingle

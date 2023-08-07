@@ -65,8 +65,10 @@ const Table: React.FC<TableProps> = ({
   };
 
   const handleDelete = (id: string | number) => {
-    console.log("id: ", id);
     dispatch<any>(fetchDeleteProduct(id));
+    setTimeout(() => {
+      window.location.reload();
+    }, 1.5 * 1000);
   };
 
   return (

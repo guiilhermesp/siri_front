@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "../../Assets/logo_branco.png";
+import { logout } from "../../Auth/Auth";
 
 interface Page {
   title: string;
@@ -78,8 +79,12 @@ const Sidebar = () => {
         <ul className={styles.sidebarList}>
           {handlePages[accountType ? "admin" : "user"]?.map(
             (page: Page, index: any) => (
-              <li className={styles.sidebarItem} key={index}>
-                <Link to={page.path} className={styles.sidebarLink}>
+              <li className={styles.sidebarItem}>
+                <Link
+                  to={page.path}
+                  className={styles.sidebarLink}
+                  onClick={page.title === "Sair" ? logout : undefined}
+                >
                   {page.title}
                 </Link>
               </li>

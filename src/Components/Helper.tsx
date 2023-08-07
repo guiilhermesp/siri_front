@@ -36,13 +36,14 @@ export function extractNamesFromData(data: any[]) {
 }
 
 export function removeObjectFromCode(data: any) {
-  const { measure, sector, supplier, category, ...rest } = data;
+  const { measure, sector, supplier, category, is_available, ...rest } = data;
   return {
     ...rest,
     measure: parseInt(measure?.id, 10) || measure,
     sector: parseInt(sector?.id, 10) || sector,
     supplier: parseInt(supplier?.id, 10) || supplier,
     category: parseInt(category?.id, 10) || category,
+    is_available: is_available?.name === "Sim" ? true : false,
   };
 }
 
@@ -53,3 +54,8 @@ export function isBooleanDisplay(data: any) {
     return data;
   }
 }
+
+export const is_available = [
+  { name: "Sim", id: 1 },
+  { name: "Não", id: 2 },
+];

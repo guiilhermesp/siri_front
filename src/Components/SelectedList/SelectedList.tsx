@@ -80,7 +80,7 @@ const SelectedList: React.FC<iSelectedList> = ({
       setShowOptions(false);
     }
   };
-
+  console.log("options: ", options);
   return (
     <div className={styles.container}>
       <Input
@@ -109,22 +109,6 @@ const SelectedList: React.FC<iSelectedList> = ({
           ))}
         </div>
       )}
-
-      {/* {list[field]?.length > 0 && !isSingle && (
-        <div className={styles.selected}>
-          {list[field]?.map((item: string) => (
-            <div key={uuidv4()} className={`${styles.item} ${classNameDiv}`}>
-              {item}
-              <button
-                className={styles.remove}
-                onClick={() => removeItem(item)}
-              >
-                X
-              </button>
-            </div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };
