@@ -4,6 +4,8 @@ import EditModal from "../EditModal/EditModal";
 import Button from "../Forms/Button";
 import { convertDateFormat, handleTextBoolean } from "../Helper";
 import CreateModal from "../CreateModal/CreateModal";
+import { fetchDeleteProduct } from "../../Services/Slices/deleteProduct";
+import { useDispatch } from "react-redux";
 
 interface Column {
   title: string;
@@ -48,6 +50,7 @@ const Table: React.FC<TableProps> = ({
   edit,
   create,
 }) => {
+  const dispatch = useDispatch();
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
   const [selectedRowData, setSelectedRowData] = useState<any>(null);
@@ -61,11 +64,13 @@ const Table: React.FC<TableProps> = ({
     setOpenCreateModal(!openEditModal);
   };
 
+  const handleDelete = (id: string | number) => {
+    console.log("id: ", id);
+    dispatch<any>(fetchDeleteProduct(id));
+  };
+
   return (
-    <div
-      className={styles.genericTable}
-      onClick={() => console.log("click on table")}
-    >
+    <div className={styles.genericTable}>
       <div className={styles.headerTable}>
         <div className={styles.tableTitle}>{title}</div>
         {createButton && (
@@ -89,11 +94,19 @@ const Table: React.FC<TableProps> = ({
           <div key={rowIndex} className={styles.tableRow}>
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className={styles.tableCell}>
-                {column.property === "button" ? (
+                {column.property === "edit" ? (
                   <Button
                     className={styles.inlineButton}
                     key={columnIndex}
                     onClick={() => handleEditModal(row)}
+                  >
+                    {column.title}
+                  </Button>
+                ) : column.property === "delete" ? (
+                  <Button
+                    className={styles.inlineButton}
+                    key={columnIndex}
+                    onClick={() => handleDelete(row.id)}
                   >
                     {column.title}
                   </Button>

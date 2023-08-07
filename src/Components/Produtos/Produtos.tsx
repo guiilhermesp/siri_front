@@ -18,8 +18,8 @@ const Produtos = () => {
     { title: "Disponível", property: "is_available" },
     { title: "Criado", property: "created" },
     { title: "Atualizado", property: "updated" },
-    { title: "Editar", property: "button" },
-    { title: "Excluir", property: "button" },
+    { title: "Editar", property: "edit" },
+    { title: "Excluir", property: "delete" },
   ];
 
   const { data } = useSelector((state: any) => state.productsSlice);

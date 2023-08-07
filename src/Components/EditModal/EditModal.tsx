@@ -1,12 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import { v4 as uuidv4 } from "uuid";
 import { filterColumns, removeObjectFromCode } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
-import React from "react";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
 import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
@@ -51,11 +49,12 @@ const EditModal: React.FC<ModalProps> = ({
       is_available: true,
     }
   );
-  const inputRef = useRef<HTMLInputElement | any>(null);
+
   const measure: any = useSelector<any>((state) => state.allMeasuresSlice);
   const category: any = useSelector<any>((state) => state.allCategoriesSlice);
   const sector: any = useSelector<any>((state) => state.allSectorsSlice);
   const supplier: any = useSelector<any>((state) => state.allSuppliersSlice);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = e.target;
     setFormData((prev: any) => ({
@@ -96,24 +95,13 @@ const EditModal: React.FC<ModalProps> = ({
     dispatch<any>(fetchAllSuppliers());
   }, []);
 
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      const firstInput = inputRef.current.parentElement.querySelector(
-        'input:not([type="hidden"])'
-      );
-      if (firstInput) {
-        firstInput.focus();
-      }
-    }
-  }, [isOpen]);
-
   return (
     <div
       className={`${className} ${styles.container}`}
       style={{ display: openModal ? "block" : "none" }}
     >
       {filterColumns(fields, remove).map((field: Field) => (
-        <div key={uuidv4()}>
+        <div>
           {listOfOptions.includes(field.property) ? (
             <div className={styles.modal}>
               <label htmlFor={field.property} className={styles.label}>
@@ -147,7 +135,6 @@ const EditModal: React.FC<ModalProps> = ({
                 value={formData[field.property]}
                 onChange={handleChange}
                 className={styles.input}
-                ref={field.property === fields[0].property ? inputRef : null}
               />
             </div>
           )}

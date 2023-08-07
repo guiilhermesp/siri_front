@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import accountSlice from "./Slices/accountSlice";
 import productsSlice from "./Slices/productsSlice";
+import deleteProduct from "./Slices/deleteProduct";
 import meSlice from "./Slices/meSlice";
 import allMeasuresSlice from "./Slices/allMeasuresSlice";
 import allCategoriesSlice from "./Slices/allCategoriesSlice";
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   accountSlice,
   meSlice,
   productsSlice,
+  deleteProduct,
   allMeasuresSlice,
   allCategoriesSlice,
   allSectorsSlice,

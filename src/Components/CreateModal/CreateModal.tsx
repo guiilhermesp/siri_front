@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import styles from "./CreateModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import { v4 as uuidv4 } from "uuid";
 import {
   filterColumns,
   isBooleanDisplay,
@@ -117,7 +116,7 @@ const CreateModal: React.FC<ModalProps> = ({
       style={{ display: openModal ? "block" : "none" }}
     >
       {filterColumns(fields, remove).map((field: Field) => (
-        <div key={uuidv4()}>
+        <div>
           {listOfOptions.includes(field.property) ? (
             <div className={styles.modal}>
               <label htmlFor={field.property} className={styles.label}>

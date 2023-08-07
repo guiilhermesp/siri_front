@@ -142,7 +142,7 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
-  deleteProduct: async (id: string) => {
+  deleteProduct: async (id: string | number) => {
     return axios
       .delete(`${PATH.stocks}/products/${id}`, options)
       .then((data: any) => data)
