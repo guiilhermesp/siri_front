@@ -49,8 +49,8 @@ const Sidebar = () => {
       { title: "Relatório do Contador", path: "/relatorio-do-contador" },
       { title: "Relatório de Estoque", path: "/relatorio-de-estoque" },
       {
-        title: "Relatório do almoxarifado",
-        path: "/relatorio-do-almoxarifado",
+        title: "Inventário do almoxarifado",
+        path: "/inventario-do-almoxarifado",
       },
       { title: "Enviar Email", path: "/enviar-email" },
       { title: "Sair", path: "/" },

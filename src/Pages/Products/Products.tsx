@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import Table from "../Table/Table";
+import Table from "../../Components/Table/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../Services/Slices/productsSlice";
-import { fetchPatchProduct } from "../../Services/Slices/patchProduct";
-import { fetchPostProduct } from "../../Services/Slices/postProduct";
+import { fetchPatchProduct } from "../../Services/Slices/Product/patchProduct";
+import { fetchProducts } from "../../Services/Slices/Product/productsSlice";
+import { fetchPostProduct } from "../../Services/Slices/Product/postProduct";
 
-const Produtos = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const columns: any[] = [
     { title: "Id", property: "id" },
@@ -26,8 +26,6 @@ const Produtos = () => {
 
   useEffect(() => {
     dispatch<any>(fetchProducts("1"));
-    const converter = sessionStorage.getItem("me");
-    const me = JSON.parse(converter as string);
   }, [dispatch]);
 
   return (
@@ -44,4 +42,4 @@ const Produtos = () => {
   );
 };
 
-export default Produtos;
+export default Products;

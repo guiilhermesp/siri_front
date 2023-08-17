@@ -4,7 +4,7 @@ import EditModal from "../EditModal/EditModal";
 import Button from "../Forms/Button";
 import { convertDateFormat, handleTextBoolean } from "../Helper";
 import CreateModal from "../CreateModal/CreateModal";
-import { fetchDeleteProduct } from "../../Services/Slices/deleteProduct";
+import { fetchDeleteProduct } from "../../Services/Slices/Product/deleteProduct";
 import { useDispatch } from "react-redux";
 
 interface Column {
@@ -15,7 +15,7 @@ interface Column {
 
 interface TableProps {
   title: string;
-  createButton: boolean;
+  createButton?: boolean;
   columns: Column[];
   edit?: any;
   create?: any;

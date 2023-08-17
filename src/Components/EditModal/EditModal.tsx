@@ -4,12 +4,12 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { filterColumns, removeObjectFromCode } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
+import { fetchAllMeasures } from "../../Services/Slices/Measure/allMeasuresSlice";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
-import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
+import { fetchAllSectors } from "../../Services/Slices/Sector/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
 import SelectedList from "../SelectedList/SelectedList";
-import { fetchPatchProduct } from "../../Services/Slices/patchProduct";
+import { fetchPatchProduct } from "../../Services/Slices/Product/patchProduct";
 
 interface Field {
   property: string;

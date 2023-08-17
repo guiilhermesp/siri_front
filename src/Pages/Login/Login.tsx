@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAccount } from "../../Services/Slices/accountSlice";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import Input from "../Forms/Input";
-import Button from "../Forms/Button";
+import Input from "../../Components/Forms/Input";
+import Button from "../../Components/Forms/Button";
 import logo from "../../Assets/logo.png";
 import { fetchMe } from "../../Services/Slices/meSlice";
 

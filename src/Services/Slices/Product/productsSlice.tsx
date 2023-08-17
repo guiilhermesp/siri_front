@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import productsServices from "../products";
-import stocksServices from "../stocks";
+import stocksServices from "../../stocks";
 
 interface ProductsState {
   data: any;
@@ -54,7 +53,6 @@ export const fetchProducts =
   ) => {
     dispatch(getProducts());
     try {
-      const page = "1";
       const response = await stocksServices.getProducts(page);
       dispatch(getProductsSuccess(response.data));
     } catch (err) {

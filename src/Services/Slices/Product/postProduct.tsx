@@ -1,33 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import stocksServices from "../stocks";
+import stocksServices from "../../stocks";
 
-interface DeleteProductState {
+interface PostProductState {
   data: any;
   loading: boolean;
   error: boolean;
 }
 
-const initialState: DeleteProductState = {
+const initialState: PostProductState = {
   data: [],
   loading: false,
   error: false,
 };
 
 const postProductSlice = createSlice({
-  name: "deleteProduct",
+  name: "postProducts",
   initialState,
   reducers: {
-    deleteProducts: (state) => {
+    postProducts: (state) => {
       state.loading = true;
       state.error = false;
       state.data = [];
     },
-    deleteProductsSuccess: (state, actions) => {
+    postProductsSuccess: (state, actions) => {
       state.loading = false;
       state.error = false;
       state.data = actions.payload;
     },
-    deleteProductsFailure: (state) => {
+    postProductsFailure: (state) => {
       state.loading = false;
       state.error = true;
       state.data = [];
@@ -35,28 +35,28 @@ const postProductSlice = createSlice({
   },
 });
 
-export const { deleteProducts, deleteProductsSuccess, deleteProductsFailure } =
+export const { postProducts, postProductsSuccess, postProductsFailure } =
   postProductSlice.actions;
 
 export default postProductSlice.reducer;
 
-export const fetchDeleteProduct =
-  (id: string | number) =>
+export const fetchPostProduct =
+  (body: any) =>
   async (
     dispatch: (arg0: {
       payload: any;
       type:
-        | "deleteProduct/deleteProducts"
-        | "deleteProduct/deleteProductsSuccess"
-        | "deleteProduct/deleteProductsFailure";
+        | "postProducts/postProducts"
+        | "postProducts/postProductsSuccess"
+        | "postProducts/postProductsFailure";
     }) => void
   ) => {
-    dispatch(deleteProducts());
+    dispatch(postProducts());
     try {
-      const response = await stocksServices.deleteProduct(id);
-      dispatch(deleteProductsSuccess(response.data));
+      const response = await stocksServices.postProduct(body);
+      dispatch(postProductsSuccess(response.data));
     } catch (err) {
       console.log("err: ", err);
-      dispatch(deleteProductsFailure());
+      dispatch(postProductsFailure());
     }
   };

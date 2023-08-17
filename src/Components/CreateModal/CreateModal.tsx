@@ -11,11 +11,11 @@ import {
 } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import SelectedList from "../SelectedList/SelectedList";
-import { fetchAllMeasures } from "../../Services/Slices/allMeasuresSlice";
+import { fetchAllMeasures } from "../../Services/Slices/Measure/allMeasuresSlice";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
-import { fetchAllSectors } from "../../Services/Slices/allSectorsSlice";
+import { fetchAllSectors } from "../../Services/Slices/Sector/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
-import { fetchPostProduct } from "../../Services/Slices/postProduct";
+import { fetchPostProduct } from "../../Services/Slices/Product/postProduct";
 
 interface Field {
   property: string;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import stocksServices from "../stocks";
+import stocksServices from "../../stocks";
 
 interface PatchProductState {
   data: any;
