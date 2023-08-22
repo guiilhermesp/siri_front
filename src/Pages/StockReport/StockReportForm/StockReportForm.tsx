@@ -8,13 +8,16 @@ import { fetchAllProducts } from "../../../Services/Slices/Product/allProducts";
 import { fetchAllPublicDefenses } from "../../../Services/Slices/allPublicDefenses";
 import Button from "../../../Components/Forms/Button";
 import { fetchStockReport } from "../../../Services/Slices/stockReportSlice";
-import { generateQueryString } from "../../../Components/Helper";
+import {
+  generateQueryString,
+  removeObjectFromCode,
+} from "../../../Components/Helper";
 
 const StockReportForm = () => {
   const dispatch = useDispatch();
   const [body, setBody] = useState({
-    initial_date: "27/04/2002",
-    final_date: "27/04/2002",
+    initial_date: "01/06/2023",
+    final_date: "31/08/2023",
     category: [],
     product: [],
     public_defense: [],
@@ -41,8 +44,6 @@ const StockReportForm = () => {
         return [];
     }
   };
-  const { data } = useSelector((state: any) => state.stockReportSlice);
-  console.log("data: ", data);
 
   const handleSelectionChange = (field: string, selectedOption: any) => {
     setBody((prev: any) => ({
@@ -52,7 +53,9 @@ const StockReportForm = () => {
   };
 
   const handleSubmit = () => {
-    dispatch<any>(fetchStockReport(generateQueryString(body)));
+    dispatch<any>(
+      fetchStockReport(generateQueryString(removeObjectFromCode(body)))
+    );
   };
 
   useEffect(() => {

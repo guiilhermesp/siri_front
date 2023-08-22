@@ -51,11 +51,9 @@ export const fetchStockReport =
         | "stockReport/getStockReportFailure";
     }) => void
   ) => {
-    console.log("body slice:", body);
     dispatch(getStockReport());
     try {
       const response = await stocksServices.getStockReports(body);
-      console.log("response: ", response);
       dispatch(getStockReportSuccess(response.data));
     } catch (err) {
       console.log("err: ", err);

@@ -36,15 +36,35 @@ export function extractNamesFromData(data: any[]) {
 }
 
 export function removeObjectFromCode(data: any) {
-  const { measure, sector, supplier, category, is_available, ...rest } = data;
-  return {
-    ...rest,
-    measure: parseInt(measure?.id, 10) || measure,
-    sector: parseInt(sector?.id, 10) || sector,
-    supplier: parseInt(supplier?.id, 10) || supplier,
-    category: parseInt(category?.id, 10) || category,
-    is_available: is_available?.name === "Sim" ? true : false,
-  };
+  const result: any = {};
+  result.initial_date = data.initial_date;
+  result.final_date = data.final_date;
+  result.measure = data.measure
+    ? parseInt(data.measure.id, 10) || data.measure
+    : undefined;
+  result.sector = data.sector
+    ? parseInt(data.sector.id, 10) || data.sector
+    : undefined;
+  result.supplier = data.supplier
+    ? parseInt(data.supplier.id, 10) || data.supplier
+    : undefined;
+  result.category = data.category
+    ? parseInt(data.category.id, 10) || data.category
+    : undefined;
+  result.public_defense = data.public_defense
+    ? parseInt(data.public_defense.id, 10) || data.public_defense
+    : undefined;
+  result.product = data.product
+    ? parseInt(data.product.id, 10) || data.product
+    : undefined;
+  if (data.is_available) {
+    result.is_available = data.is_available?.name === "Sim";
+  }
+  return result;
+}
+
+export function handleDate(date: any) {
+  return date.replace("%2F", "/");
 }
 
 export function isBooleanDisplay(data: any) {
@@ -65,45 +85,32 @@ type QueryParams = {
 };
 
 export function generateQueryString(params: QueryParams): string {
-  const queryString = Object.entries(params)
-    .filter(([key, value]) => {
+  function flattenObject(obj: Record<string, any>, prefix = ""): string[] {
+    return Object.entries(obj).flatMap(([key, value]) => {
+      const newKey = prefix ? `${prefix}[${key}]` : key;
+
       if (value === undefined || value === "") {
-        return false;
+        return [];
       }
 
       if (Array.isArray(value)) {
-        return value.length > 0;
+        return value.map((item) => `${newKey}=${encodeURIComponent(item)}`);
       }
 
       if (typeof value === "object" && value !== null) {
-        return Object.keys(value).length > 0;
+        return flattenObject(value, newKey);
       }
 
-      return true;
-    })
-    .map(([key, value]) => {
-      if (Array.isArray(value)) {
-        return value
-          .map((item) => `${key}=${encodeURIComponent(item as string)}`)
-          .join("&");
+      // Check for specific keys and handle their encoding
+      if (key === "initial_date" || key === "final_date") {
+        return `${newKey}=${encodeURIComponent(value).replace(/%2F/g, "/")}`;
       }
 
-      if (typeof value === "boolean") {
-        return `${key}=${value}`;
-      }
+      return `${newKey}=${encodeURIComponent(value)}`;
+    });
+  }
 
-      if (typeof value === "object" && value !== null) {
-        return Object.entries(value)
-          .map(
-            ([subKey, subValue]) =>
-              `${key}[${subKey}]=${encodeURIComponent(subValue as string)}`
-          )
-          .join("&");
-      }
-
-      return `${key}=${encodeURIComponent(value as string)}`;
-    })
-    .join("&");
+  const queryString = flattenObject(params).join("&");
 
   return queryString;
 }
