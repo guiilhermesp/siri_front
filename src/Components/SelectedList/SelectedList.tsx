@@ -80,7 +80,7 @@ const SelectedList: React.FC<iSelectedList> = ({
       setShowOptions(false);
     }
   };
-  console.log("options: ", options);
+  
   return (
     <div className={styles.container}>
       <Input

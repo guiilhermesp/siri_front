@@ -123,7 +123,7 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getAllProducts: async (protocolId: null) => {
+  getAllProducts: async (protocolId?: null) => {
     return axios
       .get(
         `${PATH.stocks}/products/all/${

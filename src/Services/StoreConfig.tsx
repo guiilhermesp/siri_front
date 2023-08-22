@@ -7,10 +7,13 @@ import allMeasuresSlice from "./Slices/Measure/allMeasuresSlice";
 import allCategoriesSlice from "./Slices/allCategoriesSlice";
 import allSectorsSlice from "./Slices/Sector/allSectorsSlice";
 import allSuppliersSlice from "./Slices/allSuppliersSlice";
+import allProducts from './Slices/Product/allProducts'
+import allPublicDefenses from './Slices/allPublicDefenses'
 import stockSlice from "./Slices/Stock/stockSlice";
 import warehouseSlice from "./Slices/Warehouse/warehouseSlice";
 import measureSlice from "./Slices/Measure/measureSlice";
 import sectorSlice from "./Slices/Sector/sectorSlice";
+import stockReportSlice from "./Slices/stockReportSlice";
 
 const reducer = combineReducers({
   accountSlice,
@@ -21,9 +24,12 @@ const reducer = combineReducers({
   allCategoriesSlice,
   allSectorsSlice,
   allSuppliersSlice,
+  allProducts,
+  allPublicDefenses,
   stockSlice,
   warehouseSlice,
   measureSlice,
   sectorSlice,
+  stockReportSlice
 });
 export const store = configureStore({ reducer });

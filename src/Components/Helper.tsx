@@ -59,3 +59,51 @@ export const is_available = [
   { name: "Sim", id: 1 },
   { name: "Não", id: 2 },
 ];
+
+type QueryParams = {
+  [key: string]: string | string[] | boolean | undefined;
+};
+
+export function generateQueryString(params: QueryParams): string {
+  const queryString = Object.entries(params)
+    .filter(([key, value]) => {
+      if (value === undefined || value === "") {
+        return false;
+      }
+
+      if (Array.isArray(value)) {
+        return value.length > 0;
+      }
+
+      if (typeof value === "object" && value !== null) {
+        return Object.keys(value).length > 0;
+      }
+
+      return true;
+    })
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return value
+          .map((item) => `${key}=${encodeURIComponent(item as string)}`)
+          .join("&");
+      }
+
+      if (typeof value === "boolean") {
+        return `${key}=${value}`;
+      }
+
+      if (typeof value === "object" && value !== null) {
+        return Object.entries(value)
+          .map(
+            ([subKey, subValue]) =>
+              `${key}[${subKey}]=${encodeURIComponent(subValue as string)}`
+          )
+          .join("&");
+      }
+
+      return `${key}=${encodeURIComponent(value as string)}`;
+    })
+    .join("&");
+
+  return queryString;
+}

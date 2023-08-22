@@ -7,6 +7,7 @@ import Stock from "./Pages/Stock/Stock";
 import Warehouse from "./Pages/Warehouse/Warehouse";
 import Measure from "./Pages/Measure/Measure";
 import Sector from "./Pages/Sector/Sector";
+import StockReport from "./Pages/StockReport/StockReport";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/inventario-do-almoxarifado" element={<Warehouse />} />
             <Route path="/medidas" element={<Measure />} />
             <Route path="/setores" element={<Sector />} />
+            <Route path="/relatorio-de-estoque" element={<StockReport />} />
           </Routes>
         </main>
       </BrowserRouter>
