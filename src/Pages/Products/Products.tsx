@@ -32,7 +32,7 @@ const Products = () => {
     <div>
       <Table
         title="Produtos"
-        createButton
+        type="product"
         columns={columns}
         data={data.results}
         edit={fetchPatchProduct}

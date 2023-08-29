@@ -79,7 +79,7 @@ const Sidebar = () => {
         <ul className={styles.sidebarList}>
           {handlePages[accountType ? "admin" : "user"]?.map(
             (page: Page, index: any) => (
-              <li className={styles.sidebarItem}>
+              <li className={styles.sidebarItem} key={index}>
                 <Link
                   to={page.path}
                   className={styles.sidebarLink}

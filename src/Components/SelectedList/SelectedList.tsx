@@ -12,6 +12,7 @@ interface iSelectedList {
   field: string;
   value?: any;
   readOnly?: boolean;
+  classnameContainer?: any;
   className?: any;
   classNameDiv?: any;
   options?: any;
@@ -28,13 +29,16 @@ const SelectedList: React.FC<iSelectedList> = ({
   field,
   value,
   readOnly,
+  classnameContainer,
   className,
   classNameDiv,
   options,
   isSingle,
+  onChange,
   ...props
 }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
+
   const handleAddItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value.trim();
     if (e.key === "Enter" && inputValue !== "") {
@@ -51,10 +55,20 @@ const SelectedList: React.FC<iSelectedList> = ({
   };
 
   const removeItem = (keyword: string) => {
-    setList((prev: any) => ({
-      ...prev,
-      [field]: prev[field]?.filter((item: string) => item !== keyword),
-    }));
+    setList((prev: any) => {
+      const updatedKeywords = Array.isArray(prev[field])
+        ? [...prev[field]]
+        : [];
+      const index = updatedKeywords.indexOf(keyword);
+      if (index !== -1) {
+        updatedKeywords.splice(index, 1);
+      }
+
+      return {
+        ...prev,
+        [field]: updatedKeywords,
+      };
+    });
   };
 
   const handleInputChange = () => {
@@ -71,18 +85,26 @@ const SelectedList: React.FC<iSelectedList> = ({
     const option = e.currentTarget.value;
     const selectedOption = options.find((opt: any) => opt.name === option);
 
-    setList((prevRange: any) => ({
-      ...prevRange,
-      [field]: selectedOption,
-    }));
+    const alreadyExists = list[field].some(
+      (item: any) => item.id === selectedOption.id
+    );
+
+    if (!alreadyExists) {
+      setList((prevRange: any) => ({
+        ...prevRange,
+        [field]: isSingle
+          ? selectedOption
+          : [...prevRange[field], selectedOption],
+      }));
+    }
 
     if (isSingle) {
       setShowOptions(false);
     }
   };
-  
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${classnameContainer}`}>
       <Input
         className={`${styles.input} ${className}`}
         onKeyPress={handleAddItem}
@@ -92,6 +114,7 @@ const SelectedList: React.FC<iSelectedList> = ({
         onBlur={isType && handleBlur}
         value={value}
         readOnly={readOnly}
+        onChange={onChange}
         {...props}
       />
 
@@ -106,6 +129,22 @@ const SelectedList: React.FC<iSelectedList> = ({
             >
               {option.name}
             </button>
+          ))}
+        </div>
+      )}
+
+      {!showOptions && list[field]?.length > 0 && (
+        <div className={styles.selected}>
+          {list[field]?.map((item: any) => (
+            <div key={uuidv4()} className={`${styles.item} ${classNameDiv}`}>
+              {item.name} {/* Render the 'name' property here */}
+              <button
+                className={styles.remove}
+                onClick={() => removeItem(item.name)}
+              >
+                Delete
+              </button>
+            </div>
           ))}
         </div>
       )}

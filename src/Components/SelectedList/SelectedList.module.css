@@ -1,3 +1,7 @@
+
+.container {
+  display: flex;
+}
 .input {
   background-color: var(--second-button-color);
   display: flex;

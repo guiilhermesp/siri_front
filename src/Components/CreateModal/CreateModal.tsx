@@ -5,6 +5,7 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import {
   filterColumns,
+  handleObjectPostMeasure,
   isBooleanDisplay,
   is_available,
   removeObjectFromCode,
@@ -22,8 +23,13 @@ interface Field {
   title: string;
 }
 
+interface HandleProperties {
+  [key: string]: (data: any) => any;
+}
+
 interface ModalProps {
   fields: Field[];
+  type: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit?: () => void;
   className?: string;
@@ -34,12 +40,21 @@ interface ModalProps {
 
 const CreateModal: React.FC<ModalProps> = ({
   fields,
+  type,
   onChange,
   className,
   isOpen,
   setIsOpen,
   fetch,
 }) => {
+  const handleProperties: HandleProperties = {
+    measure: handleObjectPostMeasure,
+    sector: handleObjectPostMeasure,
+    product: handleObjectPostMeasure,
+    warehouse: handleObjectPostMeasure,
+    stock: handleObjectPostMeasure,
+    stockReport: handleObjectPostMeasure,
+  };
   const listOfOptions = [
     "measure",
     "category",
@@ -47,6 +62,7 @@ const CreateModal: React.FC<ModalProps> = ({
     "sector",
     "is_available",
   ];
+
   const remove = ["button", "created", "updated", "id", "delete", "edit"];
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(isOpen);
@@ -92,7 +108,7 @@ const CreateModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {
-    dispatch<any>(fetchPostProduct(removeObjectFromCode(formData)));
+    dispatch<any>(fetch(handleProperties[type](formData)));
   };
 
   const extractNames = (property: string) => {

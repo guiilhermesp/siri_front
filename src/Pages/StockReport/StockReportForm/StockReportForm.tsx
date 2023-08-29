@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./StockReportForm.module.css";
 import Input from "../../../Components/Forms/Input";
 import SelectedList from "../../../Components/SelectedList/SelectedList";
 import { fetchAllCategories } from "../../../Services/Slices/allCategoriesSlice";
@@ -52,6 +53,7 @@ const StockReportForm = () => {
     }));
   };
 
+  console.log("body.category: ", body.category);
   const handleSubmit = () => {
     dispatch<any>(
       fetchStockReport(generateQueryString(removeObjectFromCode(body)))
@@ -66,9 +68,9 @@ const StockReportForm = () => {
   }, []);
 
   return (
-    <div>
-      <Input placeholder="Data inicial" />
-      <Input placeholder="Data final" />
+    <div className={styles.container}>
+      <Input placeholder="Data inicial" type="date" className={styles.date} />
+      <Input placeholder="Data final" type="date" className={styles.date} />
       <SelectedList
         placeholder="Categoria"
         setList={setBody}
@@ -80,6 +82,7 @@ const StockReportForm = () => {
           handleSelectionChange("category", option);
         }}
         field="category"
+        classnameContainer={styles.selectedList}
       />
       <SelectedList
         placeholder="Produto"
@@ -92,6 +95,7 @@ const StockReportForm = () => {
           handleSelectionChange("product", option);
         }}
         field="product"
+        classnameContainer={styles.selectedList}
       />
       <SelectedList
         placeholder="Núcleo"
@@ -104,6 +108,7 @@ const StockReportForm = () => {
           handleSelectionChange("public_defense", option);
         }}
         field="public_defense"
+        classnameContainer={styles.selectedList}
       />
       <SelectedList
         placeholder="Setor"
@@ -116,8 +121,11 @@ const StockReportForm = () => {
           handleSelectionChange("sector", option);
         }}
         field="sector"
+        classnameContainer={styles.selectedList}
       />
-      <Button onClick={handleSubmit}>Consultar</Button>
+      <Button onClick={handleSubmit} className={styles.button}>
+        Consultar
+      </Button>
     </div>
   );
 };

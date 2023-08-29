@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMeasure } from "../../Services/Slices/Measure/measureSlice";
 import Table from "../../Components/Table/Table";
+import { fetchPatchMeasure } from "../../Services/Slices/Measure/patchMeasure";
+import { fetchPostMeasure } from "../../Services/Slices/Measure/postMeasure";
 
 const Measure = () => {
   const dispatch = useDispatch();
@@ -12,7 +14,7 @@ const Measure = () => {
     { title: "Excluir", property: "delete" },
   ];
 
-  const { data } = useSelector((state: any) => state.productsSlice);
+  const { data } = useSelector((state: any) => state.measureSlice);
 
   useEffect(() => {
     dispatch<any>(fetchMeasure("1"));
@@ -22,11 +24,12 @@ const Measure = () => {
     <div>
       <Table
         title="Medidas"
-        createButton
+        type="measure"
         columns={columns}
         data={data.results}
-        // edit={fetchPatchProduct}
-        // create={fetchPostProduct}
+        edit={fetchPatchMeasure}
+        create={fetchPostMeasure}
+        // delete={fetchDeleteMeasure}
       />
     </div>
   );

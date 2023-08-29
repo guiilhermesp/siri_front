@@ -35,31 +35,99 @@ export function extractNamesFromData(data: any[]) {
   return data.map((item) => item.name);
 }
 
+// export function removeObjectFromCode(data: any) {
+//   const result: any = {};
+//   result.initial_date = data.initial_date;
+//   result.final_date = data.final_date;
+//   result.measure = data.measure
+//     ? parseInt(data.measure.id, 10) || data.measure
+//     : undefined;
+//   result.sector = data.sector
+//     ? parseInt(data.sector.id, 10) || data.sector
+//     : undefined;
+//   result.supplier = data.supplier
+//     ? parseInt(data.supplier.id, 10) || data.supplier
+//     : undefined;
+//   result.category = data.category
+//     ? parseInt(data.category.id, 10) || data.category
+//     : undefined;
+//   result.public_defense = data.public_defense
+//     ? parseInt(data.public_defense.id, 10) || data.public_defense
+//     : undefined;
+//   result.product = data.product
+//     ? parseInt(data.product.id, 10) || data.product
+//     : undefined;
+//   if (data.is_available) {
+//     result.is_available = data.is_available?.name === "Sim";
+//   }
+//   return result;
+// }
+
 export function removeObjectFromCode(data: any) {
   const result: any = {};
-  result.initial_date = data.initial_date;
-  result.final_date = data.final_date;
-  result.measure = data.measure
-    ? parseInt(data.measure.id, 10) || data.measure
-    : undefined;
-  result.sector = data.sector
-    ? parseInt(data.sector.id, 10) || data.sector
-    : undefined;
-  result.supplier = data.supplier
-    ? parseInt(data.supplier.id, 10) || data.supplier
-    : undefined;
-  result.category = data.category
-    ? parseInt(data.category.id, 10) || data.category
-    : undefined;
-  result.public_defense = data.public_defense
-    ? parseInt(data.public_defense.id, 10) || data.public_defense
-    : undefined;
-  result.product = data.product
-    ? parseInt(data.product.id, 10) || data.product
-    : undefined;
-  if (data.is_available) {
-    result.is_available = data.is_available?.name === "Sim";
+
+  // Copy properties only if they have values
+  if (data.initial_date !== undefined) {
+    result.initial_date = data.initial_date;
   }
+
+  if (data.final_date !== undefined) {
+    result.final_date = data.final_date;
+  }
+
+  if (data.measure !== undefined) {
+    result.measure =
+      typeof data.measure === "object"
+        ? parseInt(data.measure.id, 10) || data.measure
+        : undefined;
+  }
+
+  if (data.sector !== undefined) {
+    result.sector =
+      typeof data.sector === "object"
+        ? parseInt(data.sector.id, 10) || data.sector
+        : undefined;
+  }
+
+  if (data.supplier !== undefined) {
+    result.supplier =
+      typeof data.supplier === "object"
+        ? parseInt(data.supplier.id, 10) || data.supplier
+        : undefined;
+  }
+
+  if (data.category !== undefined) {
+    result.category =
+      typeof data.category === "object"
+        ? parseInt(data.category.id, 10) || data.category
+        : undefined;
+  }
+
+  if (data.public_defense !== undefined) {
+    result.public_defense =
+      typeof data.public_defense === "object"
+        ? parseInt(data.public_defense.id, 10) || data.public_defense
+        : undefined;
+  }
+
+  if (data.product !== undefined) {
+    result.product =
+      typeof data.product === "object"
+        ? parseInt(data.product.id, 10) || data.product
+        : undefined;
+  }
+
+  // Create is_available property only if data.is_available exists and has a value of "Sim"
+  if (data.is_available?.name === "Sim") {
+    result.is_available = true;
+  }
+
+  return result;
+}
+
+export function handleObjectPostMeasure(data: any) {
+  const result: any = {};
+  result.name = data.name;
   return result;
 }
 

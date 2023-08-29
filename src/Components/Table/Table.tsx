@@ -15,10 +15,11 @@ interface Column {
 
 interface TableProps {
   title: string;
-  createButton?: boolean;
+  type: string;
   columns: Column[];
   edit?: any;
   create?: any;
+  delete?: any;
   data: {
     id: number;
     name: string;
@@ -44,7 +45,7 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({
   title,
-  createButton,
+  type,
   columns,
   data,
   edit,
@@ -75,7 +76,7 @@ const Table: React.FC<TableProps> = ({
     <div className={styles.genericTable}>
       <div className={styles.headerTable}>
         <div className={styles.tableTitle}>{title}</div>
-        {createButton && (
+        {create && (
           <div className={styles.tableButtons}>
             <Button className={styles.create} onClick={handleCreateModal}>
               Criar
@@ -126,6 +127,7 @@ const Table: React.FC<TableProps> = ({
       </div>
       {openEditModal && (
         <EditModal
+          type={type}
           className={styles.modal}
           fields={columns}
           data={selectedRowData}
@@ -136,6 +138,7 @@ const Table: React.FC<TableProps> = ({
       )}
       {openCreateModal && (
         <CreateModal
+          type={type}
           className={styles.modal}
           fields={columns}
           isOpen={openCreateModal}

@@ -20,6 +20,7 @@ const Stock = () => {
     <div>
       <Table
         title="Estoque"
+        type="stock"
         columns={columns}
         data={data.results}
       />

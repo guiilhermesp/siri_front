@@ -15,7 +15,7 @@ const Warehouse = () => {
   ];
 
   const { data } = useSelector((state: any) => state.warehouseSlice);
-console.log('data: ', data)
+  console.log("data: ", data);
   useEffect(() => {
     dispatch<any>(fetchWarehouse());
   }, [dispatch]);
@@ -24,6 +24,7 @@ console.log('data: ', data)
     <div>
       <Table
         title="Inventário do almoxarifado"
+        type="warehouse"
         columns={columns}
         data={data}
       />

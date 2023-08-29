@@ -20,8 +20,8 @@ const Sector = () => {
   return (
     <div>
       <Table
-        title="Medidas"
-        createButton
+        title="Setores"
+        type="sector"
         columns={columns}
         data={data.results}
       />

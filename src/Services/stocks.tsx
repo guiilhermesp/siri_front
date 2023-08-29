@@ -95,9 +95,9 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
-  patchMeasure: async (id: string) => {
+  patchMeasure: async (id: string, body: any) => {
     return axios
-      .patch(`${PATH.stocks}/measures/${id}`, options)
+      .patch(`${PATH.stocks}/measures/${id}`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

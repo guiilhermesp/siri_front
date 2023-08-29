@@ -2,22 +2,26 @@ import React, { useEffect, useState } from "react";
 import styles from "./EditModal.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import { filterColumns, removeObjectFromCode } from "../Helper";
+import { filterColumns, handleObjectPostMeasure } from "../Helper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMeasures } from "../../Services/Slices/Measure/allMeasuresSlice";
 import { fetchAllCategories } from "../../Services/Slices/allCategoriesSlice";
 import { fetchAllSectors } from "../../Services/Slices/Sector/allSectorsSlice";
 import { fetchAllSuppliers } from "../../Services/Slices/allSuppliersSlice";
 import SelectedList from "../SelectedList/SelectedList";
-import { fetchPatchProduct } from "../../Services/Slices/Product/patchProduct";
 
 interface Field {
   property: string;
   title: string;
 }
 
+interface HandleProperties {
+  [key: string]: (data: any) => any;
+}
+
 interface ModalProps {
   fields: Field[];
+  type: string;
   onSubmit?: () => void;
   className?: string;
   isOpen: boolean;
@@ -28,12 +32,21 @@ interface ModalProps {
 
 const EditModal: React.FC<ModalProps> = ({
   fields,
+  type,
   className,
   data,
   isOpen,
   setIsOpen,
   fetch,
 }) => {
+  const handleProperties: HandleProperties = {
+    measure: handleObjectPostMeasure,
+    sector: handleObjectPostMeasure,
+    product: handleObjectPostMeasure,
+    warehouse: handleObjectPostMeasure,
+    stock: handleObjectPostMeasure,
+    stockReport: handleObjectPostMeasure,
+  };
   const listOfOptions = ["measure", "category", "supplier", "sector"];
   const remove = ["button", "created", "updated", "id", "delete", "edit"];
   const dispatch = useDispatch();
@@ -46,7 +59,7 @@ const EditModal: React.FC<ModalProps> = ({
       measure: "",
       category: "",
       price: "",
-      is_available: true,
+      is_available: "",
     }
   );
 
@@ -57,10 +70,25 @@ const EditModal: React.FC<ModalProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === "date") {
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setFormData((prev: any) => {
+        if (Array.isArray(prev[name])) {
+          return {
+            ...prev,
+            [name]: [...prev[name], value],
+          };
+        }
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -68,11 +96,14 @@ const EditModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {
-    dispatch<any>(
-      fetchPatchProduct(formData.id, removeObjectFromCode(formData))
+    console.log(
+      "handleProperties[type](formData): ",
+      handleProperties[type](formData)
     );
+    dispatch<any>(fetch(formData.id, handleProperties[type](formData)));
   };
 
+  console.log("data:", data);
   const extractNames = (property: string) => {
     switch (property) {
       case "measure":

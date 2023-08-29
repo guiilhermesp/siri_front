@@ -1,6 +1,7 @@
 import Table from "../../Components/Table/Table";
 import { useSelector } from "react-redux";
 import StockReportForm from "./StockReportForm/StockReportForm";
+import styles from "./StockReport.module.css";
 
 const StockReport = () => {
   const columns: any[] = [
@@ -15,12 +16,13 @@ const StockReport = () => {
   ];
 
   const { data } = useSelector((state: any) => state.stockReportSlice);
-  
+
   return (
     <div>
-        <StockReportForm />
+      <StockReportForm />
       <Table
         title="Relatório de Estoque"
+        type="stockReport"
         columns={columns}
         data={data.results}
       />
