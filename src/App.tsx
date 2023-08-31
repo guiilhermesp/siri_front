@@ -8,6 +8,8 @@ import Warehouse from "./Pages/Warehouse/Warehouse";
 import Measure from "./Pages/Measure/Measure";
 import Sector from "./Pages/Sector/Sector";
 import StockReport from "./Pages/StockReport/StockReport";
+import Request from "./Pages/Order/Order";
+import Invoice from "./Pages/Invoice/Invoice";
 
 function App() {
   return (
@@ -17,11 +19,13 @@ function App() {
         <main className="AppBody">
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/produtos" element={<Products />} />
+            <Route path="/pedidos" element={<Request />} />
             <Route path="/estoque" element={<Stock />} />
+            <Route path="/setores" element={<Sector />} />
+            <Route path="/controle-de-notas" element={<Invoice />} />
+            <Route path="/produtos" element={<Products />} />
             <Route path="/inventario-do-almoxarifado" element={<Warehouse />} />
             <Route path="/medidas" element={<Measure />} />
-            <Route path="/setores" element={<Sector />} />
             <Route path="/relatorio-de-estoque" element={<StockReport />} />
           </Routes>
         </main>

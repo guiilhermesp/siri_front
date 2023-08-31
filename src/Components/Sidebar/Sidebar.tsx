@@ -35,7 +35,7 @@ const Sidebar = () => {
       { title: "Pedidos", path: "/pedidos" },
       { title: "Estoque", path: "/estoque" },
       { title: "Setores", path: "/setores" },
-      { title: "Controle de notas", path: "/controle-notas" },
+      { title: "Controle de notas", path: "/controle-de-notas" },
       { title: "Guias de entrada", path: "/guias-de-entrada" },
       { title: "Guias de saída", path: "/guias-de-saida" },
       { title: "Categorias", path: "/categorias" },

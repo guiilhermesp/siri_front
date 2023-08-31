@@ -109,6 +109,7 @@ const CreateModal: React.FC<ModalProps> = ({
 
   const handleSubmit = () => {
     dispatch<any>(fetch(handleProperties[type](formData)));
+    setIsOpen(!isOpen);
   };
 
   const extractNames = (property: string) => {

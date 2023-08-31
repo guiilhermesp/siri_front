@@ -17,9 +17,9 @@ interface TableProps {
   title: string;
   type: string;
   columns: Column[];
-  edit?: any;
-  create?: any;
-  delete?: any;
+  onEdit?: any;
+  onCreate?: any;
+  onDelete?: any;
   data: {
     id: number;
     name: string;
@@ -48,8 +48,9 @@ const Table: React.FC<TableProps> = ({
   type,
   columns,
   data,
-  edit,
-  create,
+  onEdit,
+  onCreate,
+  onDelete,
 }) => {
   const dispatch = useDispatch();
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
@@ -66,7 +67,7 @@ const Table: React.FC<TableProps> = ({
   };
 
   const handleDelete = (id: string | number) => {
-    dispatch<any>(fetchDeleteProduct(id));
+    dispatch<any>(onDelete(id));
     setTimeout(() => {
       window.location.reload();
     }, 1.5 * 1000);
@@ -76,7 +77,7 @@ const Table: React.FC<TableProps> = ({
     <div className={styles.genericTable}>
       <div className={styles.headerTable}>
         <div className={styles.tableTitle}>{title}</div>
-        {create && (
+        {onCreate && (
           <div className={styles.tableButtons}>
             <Button className={styles.create} onClick={handleCreateModal}>
               Criar
@@ -133,7 +134,7 @@ const Table: React.FC<TableProps> = ({
           data={selectedRowData}
           isOpen={openEditModal}
           setIsOpen={setOpenEditModal}
-          fetch={edit}
+          fetch={onEdit}
         />
       )}
       {openCreateModal && (
@@ -143,7 +144,7 @@ const Table: React.FC<TableProps> = ({
           fields={columns}
           isOpen={openCreateModal}
           setIsOpen={setOpenCreateModal}
-          fetch={create}
+          fetch={onCreate}
         />
       )}
     </div>

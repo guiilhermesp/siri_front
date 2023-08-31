@@ -16,6 +16,11 @@ import sectorSlice from "./Slices/Sector/sectorSlice";
 import stockReportSlice from "./Slices/stockReportSlice";
 import patchMeasure from "./Slices/Measure/patchMeasure";
 import postMeasure from "./Slices/Measure/postMeasure";
+import deleteMeasure from "./Slices/Measure/deleteMeasure";
+import orderSlice from "./Slices/Order/orderSlice";
+import invoiceSlice from "./Slices/Invoice/invoiceSlice";
+import postInvoice from "./Slices/Invoice/postInvoice";
+import deleteInvoice from "./Slices/Invoice/deleteInvoice";
 
 const reducer = combineReducers({
   accountSlice,
@@ -35,5 +40,10 @@ const reducer = combineReducers({
   stockReportSlice,
   patchMeasure,
   postMeasure,
+  deleteMeasure,
+  orderSlice,
+  invoiceSlice,
+  postInvoice,
+  deleteInvoice,
 });
 export const store = configureStore({ reducer });

@@ -35,8 +35,8 @@ const Products = () => {
         type="product"
         columns={columns}
         data={data.results}
-        edit={fetchPatchProduct}
-        create={fetchPostProduct}
+        onEdit={fetchPatchProduct}
+        onCreate={fetchPostProduct}
       />
     </div>
   );

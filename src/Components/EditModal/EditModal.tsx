@@ -96,11 +96,9 @@ const EditModal: React.FC<ModalProps> = ({
   };
 
   const handleSubmit = () => {
-    console.log(
-      "handleProperties[type](formData): ",
-      handleProperties[type](formData)
-    );
     dispatch<any>(fetch(formData.id, handleProperties[type](formData)));
+
+    setIsOpen(!isOpen);
   };
 
   console.log("data:", data);

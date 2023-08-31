@@ -97,12 +97,12 @@ const stocksServices = {
 
   patchMeasure: async (id: string, body: any) => {
     return axios
-      .patch(`${PATH.stocks}/measures/${id}`, body, options)
+      .patch(`${PATH.stocks}/measures/${id}/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
 
-  deleteMeasure: async (measure_id: string) => {
+  deleteMeasure: async (measure_id: string | number) => {
     return axios
       .delete(`${PATH.stocks}/measures/${measure_id}`, options)
       .then((data: any) => data)

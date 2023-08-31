@@ -4,6 +4,7 @@ import { fetchMeasure } from "../../Services/Slices/Measure/measureSlice";
 import Table from "../../Components/Table/Table";
 import { fetchPatchMeasure } from "../../Services/Slices/Measure/patchMeasure";
 import { fetchPostMeasure } from "../../Services/Slices/Measure/postMeasure";
+import { fetchDeleteMeasure } from "../../Services/Slices/Measure/deleteMeasure";
 
 const Measure = () => {
   const dispatch = useDispatch();
@@ -27,9 +28,9 @@ const Measure = () => {
         type="measure"
         columns={columns}
         data={data.results}
-        edit={fetchPatchMeasure}
-        create={fetchPostMeasure}
-        // delete={fetchDeleteMeasure}
+        onEdit={fetchPatchMeasure}
+        onCreate={fetchPostMeasure}
+        onDelete={fetchDeleteMeasure}
       />
     </div>
   );
