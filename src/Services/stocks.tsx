@@ -60,9 +60,9 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
-  patchCategory: async (id: string) => {
+  patchCategory: async (id: string, body: any) => {
     return axios
-      .patch(`${PATH.stocks}/categories/${id}`, options)
+      .patch(`${PATH.stocks}/categories/${id}`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

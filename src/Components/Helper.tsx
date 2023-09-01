@@ -8,7 +8,9 @@ function isValidDate(dateStr: string): boolean {
 }
 
 export function convertDateFormat(inputDate: string): string {
-  if (isValidDate(inputDate) && typeof inputDate !== "number") {
+  const isoDateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/;
+
+  if (isoDateFormat.test(inputDate)) {
     const dateObj = new Date(inputDate);
     const day = dateObj.getUTCDate();
     const month = dateObj.getUTCMonth() + 1;

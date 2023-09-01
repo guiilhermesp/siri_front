@@ -41,7 +41,7 @@ const Sidebar = () => {
       { title: "Categorias", path: "/categorias" },
       { title: "Medidas", path: "/medidas" },
       { title: "Fornecedores", path: "/fornecedores" },
-      { title: "Pedidos do Fornecedor", path: "/pedidos-do-fornecedor" },
+      { title: "Pedidos do Fornecedor", path: "/pedidos-fornecedor" },
       { title: "Atas", path: "/atas" },
       { title: "Produtos", path: "/produtos" },
       { title: "Pedidos de AF", path: "/pedidos-de-af" },

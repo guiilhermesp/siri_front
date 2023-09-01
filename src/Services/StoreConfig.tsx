@@ -21,6 +21,16 @@ import orderSlice from "./Slices/Order/orderSlice";
 import invoiceSlice from "./Slices/Invoice/invoiceSlice";
 import postInvoice from "./Slices/Invoice/postInvoice";
 import deleteInvoice from "./Slices/Invoice/deleteInvoice";
+import receiveReportSlice from "./Slices/ReceiveReport/receiveReportSlice";
+import dispatchReportSlice from "./Slices/DispatchReport/dispatchReportSlice";
+import categorySlice from "./Slices/Category/categorySlice";
+import deleteCategory from "./Slices/Category/deleteCategory";
+import patchCategory from "./Slices/Category/patchCategory";
+import postCategory from "./Slices/Category/postCategory";
+import supplierOrderSlice from "./Slices/SupplierOrder/supplierOrderSlice";
+import patchSupplierOrder from "./Slices/SupplierOrder/patchSupplierOrder";
+import postSupplierOrder from "./Slices/SupplierOrder/postSupplierOrder";
+import deleteSupplierOrder from "./Slices/SupplierOrder/deleteSupplierOrder";
 
 const reducer = combineReducers({
   accountSlice,
@@ -45,5 +55,15 @@ const reducer = combineReducers({
   invoiceSlice,
   postInvoice,
   deleteInvoice,
+  receiveReportSlice,
+  dispatchReportSlice,
+  categorySlice,
+  deleteCategory,
+  patchCategory,
+  postCategory,
+  supplierOrderSlice,
+  patchSupplierOrder,
+  postSupplierOrder,
+  deleteSupplierOrder,
 });
 export const store = configureStore({ reducer });

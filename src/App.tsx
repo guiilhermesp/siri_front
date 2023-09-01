@@ -10,6 +10,10 @@ import Sector from "./Pages/Sector/Sector";
 import StockReport from "./Pages/StockReport/StockReport";
 import Request from "./Pages/Order/Order";
 import Invoice from "./Pages/Invoice/Invoice";
+import ReceiveReport from "./Pages/ReceiveReport/ReceiveReport";
+import DispatchReport from "./Pages/DispatchReport/DispatchReport";
+import Category from "./Pages/Category/Category";
+import SupplierOrder from "./Pages/SupplierOrder/SupplierOrder";
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
             <Route path="/estoque" element={<Stock />} />
             <Route path="/setores" element={<Sector />} />
             <Route path="/controle-de-notas" element={<Invoice />} />
+            <Route path="/guias-de-entrada" element={<ReceiveReport />} />
+            <Route path="/guias-de-saida" element={<DispatchReport />} />
+            <Route path="/categorias" element={<Category />} />
+            <Route path="/pedidos-do-fornecedor" element={<SupplierOrder />} />
             <Route path="/produtos" element={<Products />} />
             <Route path="/inventario-do-almoxarifado" element={<Warehouse />} />
             <Route path="/medidas" element={<Measure />} />
