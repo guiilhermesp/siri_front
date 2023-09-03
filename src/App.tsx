@@ -14,6 +14,11 @@ import ReceiveReport from "./Pages/ReceiveReport/ReceiveReport";
 import DispatchReport from "./Pages/DispatchReport/DispatchReport";
 import Category from "./Pages/Category/Category";
 import SupplierOrder from "./Pages/SupplierOrder/SupplierOrder";
+import Protocols from "./Pages/Protocols/Protocols";
+import Supplier from "./Pages/Supplier/Supplier";
+import MaterialOrder from "./Pages/MaterialOrder/MaterialOrder";
+import BiddingExemption from "./Pages/BiddingExemption/BiddingExemption";
+import AccountantReport from "./Pages/AccountantReport/AccountantReport";
 
 function App() {
   return (
@@ -30,11 +35,22 @@ function App() {
             <Route path="/guias-de-entrada" element={<ReceiveReport />} />
             <Route path="/guias-de-saida" element={<DispatchReport />} />
             <Route path="/categorias" element={<Category />} />
-            <Route path="/pedidos-do-fornecedor" element={<SupplierOrder />} />
+            <Route path="/pedidos-fornecedor" element={<SupplierOrder />} />
+            <Route path="/atas" element={<Protocols />} />
             <Route path="/produtos" element={<Products />} />
+            <Route path="/pedido-de-af" element={<MaterialOrder />} />
+            <Route
+              path="/dispensa-de-licitacao"
+              element={<BiddingExemption />}
+            />
+            <Route path="/fornecedores" element={<Supplier />} />
             <Route path="/inventario-do-almoxarifado" element={<Warehouse />} />
             <Route path="/medidas" element={<Measure />} />
             <Route path="/relatorio-de-estoque" element={<StockReport />} />
+            <Route
+              path="/relatorio-do-contador"
+              element={<AccountantReport />}
+            />
           </Routes>
         </main>
       </BrowserRouter>

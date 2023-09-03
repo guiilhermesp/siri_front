@@ -212,9 +212,9 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getProtocols: async () => {
+  getProtocols: async (page: string) => {
     return axios
-      .get(`${PATH.stocks}/protocols`, options)
+      .get(`${PATH.stocks}/protocols/?page=${page}`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
@@ -296,6 +296,12 @@ const stocksServices = {
       .catch((err: any) => console.log(err));
   },
 
+  getSupplier: async (page: string) => {
+    return axios
+      .get(`${PATH.stocks}/suppliers/?page=${page}`, options)
+      .then((data: any) => data)
+      .catch((err: any) => console.log(err));
+  },
   postSupplier: async (body: any) => {
     return axios
       .post(`${PATH.stocks}/suppliers/`, body, options)

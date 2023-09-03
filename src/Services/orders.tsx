@@ -94,16 +94,16 @@ const ordersServices = {
       .catch((err: any) => console.log(err));
   },
 
-  getMaterialsOrder: async (page: string) => {
+  getMaterialOrder: async (page: string) => {
     return axios
       .get(`${PATH.orders}/materials-order/?page=${page}`, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },
 
-  patchMaterialsOrder: async (id: number, body: FormData) => {
+  postMaterialOrder: async (body: FormData) => {
     return axios
-      .patch(`${PATH.orders}/materials-order/${id}`, body, options)
+      .post(`${PATH.orders}/materials-order/`, body, options)
       .then((data: any) => data)
       .catch((err: any) => console.log(err));
   },

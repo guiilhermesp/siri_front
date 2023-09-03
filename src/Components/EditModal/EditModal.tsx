@@ -101,7 +101,6 @@ const EditModal: React.FC<ModalProps> = ({
     setIsOpen(!isOpen);
   };
 
-  console.log("data:", data);
   const extractNames = (property: string) => {
     switch (property) {
       case "measure":

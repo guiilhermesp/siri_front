@@ -31,6 +31,23 @@ import supplierOrderSlice from "./Slices/SupplierOrder/supplierOrderSlice";
 import patchSupplierOrder from "./Slices/SupplierOrder/patchSupplierOrder";
 import postSupplierOrder from "./Slices/SupplierOrder/postSupplierOrder";
 import deleteSupplierOrder from "./Slices/SupplierOrder/deleteSupplierOrder";
+import ProtocolSlice from "./Slices/Protocol/ProtocolSlice";
+import patchProtocol from "./Slices/Protocol/patchProtocol";
+import postProtocol from "./Slices/Protocol/postProtocol";
+import deleteProtocol from "./Slices/Protocol/deleteProtocol";
+import SupplierSlice from "./Slices/Supplier/SupplierSlice";
+import patchSupplier from "./Slices/Supplier/patchSupplier";
+import postSupplier from "./Slices/Supplier/postSupplier";
+import deleteSupplier from "./Slices/Supplier/deleteSupplier";
+import MaterialOrderSlice from "./Slices/MaterialOrder/MaterialOrderSlice";
+import postMaterialOrder from "./Slices/MaterialOrder/postMaterialOrder";
+import deleteMaterialOrder from "./Slices/MaterialOrder/deleteMaterialOrder";
+import BiddingExemptionSlice from "./Slices/BiddingExemption/BiddingExemptionSlice";
+import postBiddingExemption from "./Slices/BiddingExemption/postBiddingExemption";
+import deleteBiddingExemption from "./Slices/BiddingExemption/deleteBiddingExemption";
+import AccountantReportSlice from "./Slices/AccountantReport/AccountantReportSlice";
+import postAccountantReport from "./Slices/AccountantReport/postAccountantReport";
+import deleteAccountantReport from "./Slices/AccountantReport/deleteAccountantReport";
 
 const reducer = combineReducers({
   accountSlice,
@@ -65,5 +82,22 @@ const reducer = combineReducers({
   patchSupplierOrder,
   postSupplierOrder,
   deleteSupplierOrder,
+  ProtocolSlice,
+  patchProtocol,
+  postProtocol,
+  deleteProtocol,
+  SupplierSlice,
+  patchSupplier,
+  postSupplier,
+  deleteSupplier,
+  MaterialOrderSlice,
+  postMaterialOrder,
+  deleteMaterialOrder,
+  BiddingExemptionSlice,
+  postBiddingExemption,
+  deleteBiddingExemption,
+  AccountantReportSlice,
+  postAccountantReport,
+  deleteAccountantReport,
 });
 export const store = configureStore({ reducer });

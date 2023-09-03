@@ -15,7 +15,6 @@ const Warehouse = () => {
   ];
 
   const { data } = useSelector((state: any) => state.warehouseSlice);
-  console.log("data: ", data);
   useEffect(() => {
     dispatch<any>(fetchWarehouse());
   }, [dispatch]);

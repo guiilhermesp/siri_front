@@ -44,7 +44,7 @@ const Sidebar = () => {
       { title: "Pedidos do Fornecedor", path: "/pedidos-fornecedor" },
       { title: "Atas", path: "/atas" },
       { title: "Produtos", path: "/produtos" },
-      { title: "Pedidos de AF", path: "/pedidos-de-af" },
+      { title: "Pedidos de AF", path: "/pedido-de-af" },
       { title: "Dispensa de licitação", path: "/dispensa-de-licitacao" },
       { title: "Relatório do Contador", path: "/relatorio-do-contador" },
       { title: "Relatório de Estoque", path: "/relatorio-de-estoque" },

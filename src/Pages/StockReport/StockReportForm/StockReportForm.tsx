@@ -53,7 +53,6 @@ const StockReportForm = () => {
     }));
   };
 
-  console.log("body.category: ", body.category);
   const handleSubmit = () => {
     dispatch<any>(
       fetchStockReport(generateQueryString(removeObjectFromCode(body)))
